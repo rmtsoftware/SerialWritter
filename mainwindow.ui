@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>401</width>
+    <height>594</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QFrame" name="main_frame">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>381</width>
+      <height>391</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: bold;
+</string>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QFrame" name="req_frame">
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLabel" name="lb_request">
+          <property name="styleSheet">
+           <string notr="true">font-size: 12pt;</string>
+          </property>
+          <property name="text">
+           <string>Запрос</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="btn_req_frame">
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QPushButton" name="btn_gps">
+             <property name="text">
+              <string>GPS</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btn_imu">
+             <property name="text">
+              <string>IMU</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="mode_frame">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="lb_mode">
+          <property name="styleSheet">
+           <string notr="true">font-size: 12pt;</string>
+          </property>
+          <property name="text">
+           <string>Режим</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="btn_mode_frame">
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QPushButton" name="btn_mnl_mode">
+             <property name="text">
+              <string>Ручной</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btn_auto_mode">
+             <property name="text">
+              <string>Автономный</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btn_rmt_mode">
+             <property name="text">
+              <string>Дистанционный</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="pwr_mtr_frame">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="lb_pwr_mnl">
+          <property name="styleSheet">
+           <string notr="true">font-size: 12pt;</string>
+          </property>
+          <property name="text">
+           <string>Мощность</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_pwr_mnl">
+          <property name="maximumSize">
+           <size>
+            <width>186</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="ctrl_mtr_frame">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="lb_motor">
+          <property name="styleSheet">
+           <string notr="true">font-size: 12pt;</string>
+          </property>
+          <property name="text">
+           <string>Двигатель</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_ctrl_mtr">
+          <property name="text">
+           <string>Старт</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QFrame" name="conn_frame_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>381</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="conn_frame">
+     <item>
+      <widget class="QPushButton" name="btn_connect">
+       <property name="text">
+        <string>Подключиться</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btn_disconnect">
+       <property name="text">
+        <string>Отключиться</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
