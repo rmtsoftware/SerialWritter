@@ -197,6 +197,29 @@
      <string>не выбрано</string>
     </property>
    </widget>
+   <widget class="QComboBox" name="cb_baudrate">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>460</y>
+      <width>111</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string/>
+    </property>
+    <item>
+     <property name="text">
+      <string>9600</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>115200</string>
+     </property>
+    </item>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

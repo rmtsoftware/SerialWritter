@@ -153,6 +153,11 @@ class Ui_MainWindow(object):
         self.cb_com_dev = QComboBox(self.centralwidget)
         self.cb_com_dev.setObjectName(u"cb_com_dev")
         self.cb_com_dev.setGeometry(QRect(20, 460, 111, 22))
+        self.cb_baudrate = QComboBox(self.centralwidget)
+        self.cb_baudrate.addItem("")
+        self.cb_baudrate.addItem("")
+        self.cb_baudrate.setObjectName(u"cb_baudrate")
+        self.cb_baudrate.setGeometry(QRect(170, 460, 111, 22))
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -178,5 +183,9 @@ class Ui_MainWindow(object):
         self.btn_connect.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u0434\u043a\u043b\u044e\u0447\u0438\u0442\u044c\u0441\u044f", None))
         self.btn_disconnect.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0442\u043a\u043b\u044e\u0447\u0438\u0442\u044c\u0441\u044f", None))
         self.cb_com_dev.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u043d\u0435 \u0432\u044b\u0431\u0440\u0430\u043d\u043e", None))
+        self.cb_baudrate.setItemText(0, QCoreApplication.translate("MainWindow", u"9600", None))
+        self.cb_baudrate.setItemText(1, QCoreApplication.translate("MainWindow", u"115200", None))
+
+        self.cb_baudrate.setPlaceholderText("")
     # retranslateUi
 

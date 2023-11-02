@@ -26,6 +26,13 @@ class Messager():
         QtWidgets.QMessageBox.critical(None, "Ошибка", 
                                      f"Устроство {dev} не доступно",
                                       QtWidgets.QMessageBox.StandardButton.Ok)
+    
+    @staticmethod
+    def _not_selected_dev():
+        """ Вызов сообщения ошибки -> устройство по заданному com-порту не доступно """
+        QtWidgets.QMessageBox.warning(None, "Предупреждение", 
+                                     f"Изделие не выбрано",
+                                      QtWidgets.QMessageBox.StandardButton.Ok)
         
     
 
@@ -49,6 +56,7 @@ class Base(QtWidgets.QMainWindow):
 
         # Инициализация объекта последовательного порта
         self.ser = None
+        self.current_com = None
         for btn in self.all_btns:
                 btn.setEnabled(False) # установка неактивного состояния кнопок
         self.ui.btn_disconnect.setEnabled(False) # доп.неакт кнопка "отключиться"
@@ -78,6 +86,13 @@ class Base(QtWidgets.QMainWindow):
     def _add_item_to_cb(self):
         avail_ports = self._avail_dev()
         common, to_del, to_add = self._cb_proc(self.item_in_cb, avail_ports)
+
+        # Проверка есть ли выбранный com-порт
+        # в списке доступных com-портов
+        if self.current_com is not None:
+            if not self.current_com in common:
+                self.disconnect_from_ser_dev()
+
         for el in to_del:
             index = self.ui.cb_com_dev.findText(el)
             self.ui.cb_com_dev.removeItem(index)
@@ -90,18 +105,25 @@ class Base(QtWidgets.QMainWindow):
         """
         Логика и действия при нажатии кнопки "Подключиться"
         """
+        
+        # если в combobox "не выбрано"
+        if self.ui.cb_com_dev.currentIndex() == -1:
+            Messager._not_selected_dev()
+            return
 
-        _com = "COM3"
+        # Определяем текущие выбраные item в комбобоксах
+        self.current_com = self.ui.cb_com_dev.currentText()
+        self.current_brate = int(self.ui.cb_baudrate.currentText())
 
         try:
-            self.ser = serial.Serial(_com, 9600)
+            self.ser = serial.Serial(self.current_com, self.current_brate)
             self.ser.close()
             self.ser.open()
         
         # Ошибка возникающая при недоустпности / неопределённости устройства
         # по указанному com-порту
         except serial.serialutil.SerialException as e:
-            Messager._indefinite_dev(_com)
+            Messager._indefinite_dev(self.current_com)
             return
         
         # Вызов инф.сообщения
@@ -111,8 +133,6 @@ class Base(QtWidgets.QMainWindow):
         self.ui.btn_disconnect.setEnabled(True)
 
         self._activate_btns() # Активация кнопок
-        self.ser.write(b'aaaa')
-
 
     def disconnect_from_ser_dev(self):
         self.ser.close() # закрытие порта
@@ -122,6 +142,7 @@ class Base(QtWidgets.QMainWindow):
         self.ui.btn_connect.setEnabled(True)
         self.ui.btn_disconnect.setEnabled(False)
 
+        self.current_com = None
     
     def _get_imu(self):
         self.ser.write(b'D,s,4,GPS,*,\r,\n')
