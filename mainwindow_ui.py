@@ -17,18 +17,19 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
     QLabel, QLineEdit, QMainWindow, QPushButton,
-    QSizePolicy, QStatusBar, QVBoxLayout, QWidget)
+    QSizePolicy, QStatusBar, QTextBrowser, QTextEdit,
+    QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(401, 594)
+        MainWindow.resize(393, 875)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.main_frame = QFrame(self.centralwidget)
         self.main_frame.setObjectName(u"main_frame")
-        self.main_frame.setGeometry(QRect(10, 50, 381, 391))
+        self.main_frame.setGeometry(QRect(10, 110, 381, 391))
         self.main_frame.setStyleSheet(u"font: bold;\n"
 "")
         self.verticalLayout_3 = QVBoxLayout(self.main_frame)
@@ -137,7 +138,7 @@ class Ui_MainWindow(object):
 
         self.conn_frame_2 = QFrame(self.centralwidget)
         self.conn_frame_2.setObjectName(u"conn_frame_2")
-        self.conn_frame_2.setGeometry(QRect(10, 0, 381, 61))
+        self.conn_frame_2.setGeometry(QRect(10, 50, 381, 41))
         self.conn_frame = QHBoxLayout(self.conn_frame_2)
         self.conn_frame.setObjectName(u"conn_frame")
         self.btn_connect = QPushButton(self.conn_frame_2)
@@ -150,14 +151,41 @@ class Ui_MainWindow(object):
 
         self.conn_frame.addWidget(self.btn_disconnect)
 
-        self.cb_com_dev = QComboBox(self.centralwidget)
+        self.te_mnl_cmd = QTextEdit(self.centralwidget)
+        self.te_mnl_cmd.setObjectName(u"te_mnl_cmd")
+        self.te_mnl_cmd.setGeometry(QRect(10, 510, 371, 31))
+        self.select_params_com_frame = QFrame(self.centralwidget)
+        self.select_params_com_frame.setObjectName(u"select_params_com_frame")
+        self.select_params_com_frame.setGeometry(QRect(10, 10, 381, 51))
+        self.horizontalLayout_5 = QHBoxLayout(self.select_params_com_frame)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.cb_com_dev = QComboBox(self.select_params_com_frame)
         self.cb_com_dev.setObjectName(u"cb_com_dev")
-        self.cb_com_dev.setGeometry(QRect(20, 460, 111, 22))
-        self.cb_baudrate = QComboBox(self.centralwidget)
+
+        self.horizontalLayout_5.addWidget(self.cb_com_dev)
+
+        self.cb_baudrate = QComboBox(self.select_params_com_frame)
         self.cb_baudrate.addItem("")
         self.cb_baudrate.addItem("")
         self.cb_baudrate.setObjectName(u"cb_baudrate")
-        self.cb_baudrate.setGeometry(QRect(170, 460, 111, 22))
+
+        self.horizontalLayout_5.addWidget(self.cb_baudrate)
+
+        self.text_frame = QFrame(self.centralwidget)
+        self.text_frame.setObjectName(u"text_frame")
+        self.text_frame.setGeometry(QRect(10, 580, 371, 261))
+        self.verticalLayout_4 = QVBoxLayout(self.text_frame)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.textBrowser = QTextBrowser(self.text_frame)
+        self.textBrowser.setObjectName(u"textBrowser")
+
+        self.verticalLayout_4.addWidget(self.textBrowser)
+
+        self.btn_clean_textBrw = QPushButton(self.text_frame)
+        self.btn_clean_textBrw.setObjectName(u"btn_clean_textBrw")
+
+        self.verticalLayout_4.addWidget(self.btn_clean_textBrw)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -187,5 +215,6 @@ class Ui_MainWindow(object):
         self.cb_baudrate.setItemText(1, QCoreApplication.translate("MainWindow", u"115200", None))
 
         self.cb_baudrate.setPlaceholderText("")
+        self.btn_clean_textBrw.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0447\u0438\u0441\u0442\u0438\u0442\u044c", None))
     # retranslateUi
 
