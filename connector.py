@@ -88,5 +88,5 @@ class SerialConnector(Thread):
         Добавление записи в окно вывода текста
         """
         if self.ser is not None:
-            self.current_text += self.reader.glob_line
+            self.current_text = self.reader.glob_line + self.current_text + '\n'
             self.ui.textBrowser.setText(self.current_text)

@@ -22,6 +22,8 @@ class Reader(QRunnable):
                     cut_time = datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
                     self.glob_line = f'[{cut_time}] - [RECIEVED] - {sline}\n'
                     self.signals.get_data.emit()
+                if not self.ser.is_open:
+                    return
             except:
                 if self.glob_stop:
                     break
