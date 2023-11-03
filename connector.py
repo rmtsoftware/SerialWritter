@@ -90,3 +90,8 @@ class SerialConnector(Thread):
         if self.ser is not None:
             self.current_text = self.reader.glob_line + self.current_text + '\n'
             self.ui.textBrowser.setText(self.current_text)
+
+    # При закрытии приложениии автоматически закрывается открытый ранее порт
+    def closeEvent(self, event):
+        self.ser.close()
+        event.accept()

@@ -1,5 +1,4 @@
 from PySide6 import QtWidgets
-import datetime
 import sys
 from cbprocessor import ComboBoxProcesser
 
@@ -66,14 +65,6 @@ class BtnsFunctionality(ComboBoxProcesser):
         self.current_text = f'[{self._cur_time()}] - [SEND] - D,s,4,IMU,*,\r\n\n' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
 
-
-    def _cur_time(self):
-        return datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
-    
-    
-    def closeEvent(self, event):
-        self.ser.close()
-        event.accept()
 
 
 if __name__ == '__main__':

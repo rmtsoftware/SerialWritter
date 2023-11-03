@@ -1,6 +1,9 @@
 from PySide6 import QtWidgets
-from mainwindow_ui import Ui_MainWindow
 from PySide6.QtCore import QThreadPool
+
+from mainwindow_ui import Ui_MainWindow
+
+import datetime
 
 class Base(QtWidgets.QMainWindow):
     def __init__(self):
@@ -44,6 +47,9 @@ class Base(QtWidgets.QMainWindow):
         if not self.ser.is_open:
             for btn in self.all_btns:
                 btn.setEnabled(False)
+
+    def _cur_time(self):
+        return datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
         
         
 
