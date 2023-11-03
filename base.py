@@ -1,4 +1,4 @@
-from PySide6 import QtWidgets
+from PySide6 import QtWidgets, QtGui
 from PySide6.QtCore import QThreadPool
 
 from mainwindow_ui import Ui_MainWindow
@@ -12,13 +12,18 @@ class Base(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        self.setFixedSize(self.size()) 
+        self.setWindowTitle("Serial Write-Reader App") 
+        self.setWindowIcon(QtGui.QIcon('logo_v2.png'))
+
         # Для удобства собраны все кнопки в один лист
         self.all_btns = [self.ui.btn_imu, 
                         self.ui.btn_gps,
                         self.ui.btn_mnl_mode,
                         self.ui.btn_auto_mode,
                         self.ui.btn_rmt_mode,
-                        self.ui.btn_ctrl_mtr,]
+                        self.ui.btn_ctrl_mtr,
+                        self.ui.btn_mnl_cmd,]
         
         # Инициализация объекта последовательного порта
         self.ser = None

@@ -93,5 +93,10 @@ class SerialConnector(Thread):
 
     # При закрытии приложениии автоматически закрывается открытый ранее порт
     def closeEvent(self, event):
-        self.ser.close()
+
+        try:
+            self.ser.close()
+        except AttributeError as _ :
+            pass
+        
         event.accept()
