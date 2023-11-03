@@ -27,9 +27,12 @@ class BtnsFunctionality(ComboBoxProcesser):
         self.ui.btn_clean_textBrw.clicked.connect(self._clr_text_brw)
 
     def send_mnl_cmd(self):
+        # Получение текста из QLineEdit
         msg = str(self.ui.le_mnl_cmd.text())
         full_str = msg + '\r\n'
-        self.ser.write(bytes(full_str + '\n', encoding='utf-8'))
+        # Запись в порт
+        self.ser.write(bytes(full_str, encoding='utf-8'))
+        # Добавление записи в терминал
         self.current_text = f'[{self._cur_time()}] - [SEND] - {full_str}' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
 
