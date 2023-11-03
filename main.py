@@ -12,7 +12,6 @@ class BtnsFunctionality(ComboBoxProcesser):
         self.ui.btn_imu.clicked.connect(self._get_imu)
         self.ui.btn_clean_textBrw.clicked.connect(self._clr_text_brw)
 
-    
     def _cur_time(self):
         return datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
 
