@@ -12,6 +12,8 @@ class Reader(QRunnable):
         self.signals = ReaderSignals()
         self.glob_line = ''
         self.glob_stop = False
+        
+        self.glob_cs_man_mode = None
 
     def run(self):
         while True:
@@ -19,6 +21,12 @@ class Reader(QRunnable):
                 if self.ser.is_open:
                     line = self.ser.readline()
                     sline = str(line, 'UTF-8')
+
+
+                    #if sline[0:5] == 'D,s,1':
+                    if sline[0:5] == 'D,s,3':
+                         self.glob_cs_man_mode = 55
+
                     cut_time = datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
                     self.glob_line = f'[{cut_time}] - [RECIEVED] - {sline}\n'
                     self.signals.get_data.emit()
