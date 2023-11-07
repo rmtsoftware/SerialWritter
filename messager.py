@@ -28,3 +28,11 @@ class Messager():
         QtWidgets.QMessageBox.warning(None, "Предупреждение", 
                                      f"Изделие не выбрано",
                                       QtWidgets.QMessageBox.StandardButton.Ok)
+        
+
+    @staticmethod
+    def _gps_check_sum_error():
+        """ Вызов сообщения ошибки -> Ошибка контрольной суммы при получении строки GPS """
+        QtWidgets.QMessageBox.warning(None, "Предупреждение", 
+                                     f"Ошибка контрольной суммы GPS",
+                                      QtWidgets.QMessageBox.StandardButton.Ok)

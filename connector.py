@@ -67,6 +67,8 @@ class SerialConnector(Thread):
         # Сигнал получения даты
         self.reader.signals.get_data.connect(self._rcv_data)
 
+        # Сигнал ошибки контрольной суммы GPS
+        self.reader.signals.fault_checksum_gps_data.connect(self._f_checksum_gps)
     
     def disconnect_from_ser_dev(self):
         """
@@ -90,6 +92,10 @@ class SerialConnector(Thread):
         if self.ser is not None:
             self.current_text = self.reader.glob_line + self.current_text + '\n'
             self.ui.textBrowser.setText(self.current_text)
+    
+
+    def _f_checksum_gps(self):
+        Messager._gps_check_sum_error()
 
     # При закрытии приложениии автоматически закрывается открытый ранее порт
     def closeEvent(self, event):
