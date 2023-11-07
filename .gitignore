@@ -3,3 +3,5 @@ __pycache__/
 serial_port_test.py
 server.py
 logo_v2.png
+.vscode/
+c_module/_example.py
