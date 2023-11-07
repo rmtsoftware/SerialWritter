@@ -40,7 +40,11 @@ class BtnsFunctionality(ComboBoxProcesser):
     
     def manual_mode(self):
         """Ручной режим управления аппаратом"""
-        pass
+        cmd = 'D,s,3,F,100,*,\r,\n'
+        self.ser.write(bytes(cmd, encoding='utf-8'))
+        self.current_text = f'[{self._cur_time()}] - [SEND] - {cmd}\n' + self.current_text
+        self.ui.textBrowser.setText(self.current_text)
+
 
     def auto_mode(self):
         """Автоматический режим управления аппаратом"""
