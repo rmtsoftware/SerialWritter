@@ -47,12 +47,12 @@ class BtnsFunctionality(ComboBoxProcesser):
         self.ui.textBrowser.setText(self.current_text)
 
 
-    def _confirm_cs(self, hl_cs):
-        if hl_cs == self.reader.glob_cs_man_mode:
-            print('команда подтверждена!!!')
-        else:
-            print('команда не подтверждена')
-        self.reader.glob_cs_man_mode = None
+    #def _confirm_cs(self, hl_cs):
+    #    if hl_cs == self.reader.glob_cs_man_mode:
+    #        print('команда подтверждена!!!')
+    #    else:
+    #        print('команда не подтверждена')
+    #    self.reader.glob_cs_man_mode = None
 
 
     def manual_mode(self):
@@ -66,7 +66,7 @@ class BtnsFunctionality(ComboBoxProcesser):
         # high-level software checksum
         # Контрольная сумма, рассчитанное GUI. Сравнивается с контрольной суммой, полученной от нижнего уровня.
         self.hl_cs = ord(self.test.calculateChecksum(cmd.encode('utf-8')))
-        QtCore.QTimer.singleShot(100, lambda: self._confirm_cs(self.hl_cs))
+        #QtCore.QTimer.singleShot(100, lambda: self._confirm_cs(self.hl_cs))
 
     def auto_mode(self):
         """Автоматический режим управления аппаратом"""
