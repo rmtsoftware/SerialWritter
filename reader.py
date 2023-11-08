@@ -6,7 +6,10 @@ class ReaderSignals(QObject):
     get_data = Signal()
 
     rcv_gps_data = Signal()
+    rcv_imu_data = Signal()
+
     fault_checksum_gps_data = Signal()
+    fault_checksum_imu_data = Signal()
 
 
 class Reader(QRunnable):
@@ -24,6 +27,7 @@ class Reader(QRunnable):
         
         self.glob_cs_man_mode = None
 
+        # GPS
         self.Latitude: float = 0.0
         self.NS: str = 'N'
         self.Longitude: float = 0.0
@@ -35,40 +39,85 @@ class Reader(QRunnable):
         self.Time: float = 0.0
         self.GrndSpeed: float = 0.0
 
-    def _gps_proccesor(self, sline):
+        # IMU
+        self.AXL_x: int = 0
+        self.AXL_y: int = 0
+        self.AXL_z: int = 0
+        self.MAG_x: int = 0
+        self.MAG_y: int = 0
+        self.MAG_z: int = 0
+        self.GYRO_x: int = 0
+        self.GYRO_y: int = 0
+        self.GYRO_z: int = 0
+        self.Gnd_Heading: int = 0
+
+    def __base_proccesor(self, sline):
 
         def parse_gps_data(raw_data):
             return raw_data.split(',')[4:-1]
 
-        """ Обработка строки после запроса GPS """
+        """ Обработка полученной строки """
+
         # Вычисление контрольной суммы полученного сообщения
         _cS = ord(self.checkSum.calculateChecksum(sline.encode('utf-8')))
         
         # Извлечение контрольной суммы и даты из полученного сообщения
         raw_data, raw_cs = sline.split('*')
-        rcv_cs = int(raw_cs.split(',')[1]) - 1
+        rcv_cs = int(raw_cs.split(',')[1])
 
         # Ошибка контрольной суммы
         if rcv_cs != _cS:
-            self.signals.fault_checksum_gps_data.emit()
-                    
+            
+            if 'D,s,1':
+                self.signals.fault_checksum_gps_data.emit()
+                return
+            
+            if 'D,s,2':
+                self.signals.fault_checksum_imu_data.emit()
+                return
+            
         else:
+            data = parse_gps_data(raw_data)
+            return data
 
-            # Запись данных в атрибуты класса. Для получения в дальнейшем в глобальной области приложения
-            Latitude, NS, Longitude, EW, Altitude, Year, Month, Day, Time, GrndSpeed = parse_gps_data(raw_data)
-            self.Latitude = float(Latitude)
-            self.NS: str = NS
-            self.Longitude = float(Longitude)
-            self.EW = EW
-            self.Altitude = float(Altitude)
-            self.Year = int(Year)
-            self.Month = int(Month)
-            self.Day = int(Day)
-            self.Time = float(Time)
-            self.GrndSpeed = float(GrndSpeed)
+    def _gps_proccesor(self, sline):
 
-            # Сигнал успешно полученных данных
-            self.signals.rcv_gps_data.emit()
+        data = self.__base_proccesor(sline)
+
+        # Запись в атрибуты класса
+        self.Latitude = float(data[0])
+        self.NS: str = data[1]
+        self.Longitude = float(data[2])
+        self.EW = data[3]
+        self.Altitude = float(data[4])
+        self.Year = int(data[5])
+        self.Month = int(data[6])
+        self.Day = int(data[7])
+        self.Time = float(data[8])
+        self.GrndSpeed = float(data[9])
+
+        # Сигнал успешно полученных данных
+        self.signals.rcv_gps_data.emit()
+
+    def _imu_proccesor(self, sline):
+
+        data = self.__base_proccesor(sline)
+
+        # Запись в атрибуты класса
+        self.AXL_x = int(data[0])
+        self.AXL_y =  int(data[1])
+        self.AXL_z = int(data[2])
+        self.MAG_x = int(data[3])
+        self.MAG_y = int(data[4])
+        self.MAG_z = int(data[5])
+        self.GYRO_x = int(data[6])
+        self.GYRO_y = int(data[7])
+        self.GYRO_z = int(data[8])
+        self.Gnd_Heading = int(data[9])
+
+        # Сигнал успешно полученных данных
+        self.signals.rcv_gps_data.emit()
+
 
     def run(self):
         while True:
@@ -76,11 +125,16 @@ class Reader(QRunnable):
                 if self.ser.is_open:
                     line = self.ser.readline()
                     sline = str(line, 'UTF-8')
-                    sline = "D,s,1,49,5949.08250,N,03019.66393,S,00155.5,2023,10,23,180723.00,0.004,*,$,\r,\n"
-
-                    match sline[0:5]:
-                        case 'D,s,1': self._gps_proccesor(sline) # Полученны данные GPS
-                        case _: pass
+                
+                    _msg_type = sline[0:5]
+                    match _msg_type:
+                        case 'D,s,1':
+                            print('i m here') 
+                            self._gps_proccesor(sline) # Полученны данные GPS
+                        case 'D,s,2': 
+                            self._imu_proccesor(sline) # Полученны данные IMU
+                        case _:
+                            print('Undefined command') # Неизвестная команда
 
 
                     #if sline[0:5] == 'D,s,3':

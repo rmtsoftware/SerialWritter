@@ -108,7 +108,7 @@ class BtnsFunctionality(ComboBoxProcesser):
 
 
 
-class ControlDataInLineEdit(ComboBoxProcesser):
+class ControlDataInLineEdit(BtnsFunctionality):
     def __init__(self):
         super().__init__()
         self.ui.le_pwr_mnl.editingFinished.connect(self._action_le_edited)
