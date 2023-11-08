@@ -63,13 +63,14 @@ class SerialConnector(Thread):
         self.ui.btn_disconnect.setEnabled(True)
 
         self._activate_btns() # Активация кнопок
-
-        # Сигнал получения даты
-        self.reader.signals.get_data.connect(self._rcv_data)
-
-        # Сигнал ошибки контрольной суммы GPS
-        self.reader.signals.fault_checksum_gps_data.connect(self._f_checksum_gps)
+        
+        self.reader.signals.rcv_gps_data.connect(self._rcv_gps) # Сигнал упешного получения gps данных
+        self.reader.signals.rcv_imu_data.connect(self._rcv_imu) # Сигнал упешного получения imu данных
+        self.reader.signals.fault_checksum_gps_data.connect(self._f_checksum_gps) # Сигнал ошибки контрольной суммы GPS
+        self.reader.signals.fault_checksum_imu_data.connect(self._f_checksum_imu) # Сигнал ошибки контрольной суммы IMU
+        self.reader.signals.get_data.connect(self._rcv_data) # Общий сигнал получения даты для записи в окно терминала
     
+
     def disconnect_from_ser_dev(self):
         """
         Отключение от последовательного устройства
@@ -84,6 +85,14 @@ class SerialConnector(Thread):
         self.current_com = None
         self.reader.glob_stop = True
 
+
+    def _rcv_gps(self):
+        pass
+
+    
+    def _rcv_imu(self):
+        pass
+
     
     def _rcv_data(self):
         """
@@ -95,7 +104,15 @@ class SerialConnector(Thread):
     
 
     def _f_checksum_gps(self):
+        """ вызов message box в случае ошибки контр.суммы по GPS"""
         Messager._gps_check_sum_error()
+
+
+    def _f_checksum_imu(self):
+        """ вызов message box в случае ошибки контр.суммы по IMU"""
+        Messager._imu_check_sum_error()
+
+    
 
     # При закрытии приложениии автоматически закрывается открытый ранее порт
     def closeEvent(self, event):
