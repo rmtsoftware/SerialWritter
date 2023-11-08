@@ -36,3 +36,11 @@ class Messager():
         QtWidgets.QMessageBox.warning(None, "Предупреждение", 
                                      f"Ошибка контрольной суммы GPS",
                                       QtWidgets.QMessageBox.StandardButton.Ok)
+        
+    
+    @staticmethod
+    def _invalid_input():
+        """ Вызов сообщения ошибки -> Введены недопустимые символы"""
+        QtWidgets.QMessageBox.warning(None, "Ошибка ввода", 
+                                     f"Введите число от 0 до 100",
+                                      QtWidgets.QMessageBox.StandardButton.Ok)
