@@ -16,12 +16,12 @@ class BtnsFunctionality(ComboBoxProcesser):
         self.ui.btn_imu.clicked.connect(self._get_imu)
 
         # кнопки выбора режима управления
-        self.ui.btn_mnl_mode.clicked.connect(self.manual_mode)
-        self.ui.btn_auto_mode.clicked.connect(self.auto_mode)
-        self.ui.btn_rmt_mode.clicked.connect(self.remote_mode)
+        self.ui.btn_mnl_mode.clicked.connect(self._manual_mode)
+        self.ui.btn_auto_mode.clicked.connect(self._auto_mode)
+        self.ui.btn_rmt_mode.clicked.connect(self._remote_mode)
 
         # кнопка запуска/остановки двигателя
-        self.ui.btn_ctrl_mtr.clicked.connect(self.ctrl_motor)
+        self.ui.btn_ctrl_mtr.clicked.connect(self._ctrl_motor)
 
         # кнопка отправки мануальной команды
         self.ui.btn_mnl_cmd.clicked.connect(self.send_mnl_cmd)
@@ -34,6 +34,9 @@ class BtnsFunctionality(ComboBoxProcesser):
         self.test = ctypes.cdll.LoadLibrary('C:\\Users\\m.ishchenko\\Desktop\\Projects\\ANPA\\SerWritter\\c_module\\checksum.dll')
         self.test.calculateChecksum.restype = ctypes.c_char
         self.test.calculateChecksum.argtypes = [ctypes.POINTER(ctypes.c_char), ]
+
+        self.man_mode_flag = False
+        self.counter_man_mode = 0
 
 
     def send_mnl_cmd(self):
@@ -55,28 +58,48 @@ class BtnsFunctionality(ComboBoxProcesser):
     #    self.reader.glob_cs_man_mode = None
 
 
-    def manual_mode(self):
+    def _manual_mode(self):
+        
         """Ручной режим управления аппаратом"""
 
-        cmd = 'D,s,3,F,100,*,\r,\n'  # для этой командыы cs == 55
+        if self.man_mode_flag == True:
+            return
+        
+        cmd = f'D,s,3,F,{self.pwr_mnl},*'
+        cmd += ',\r\n'
         self.ser.write(bytes(cmd, encoding='utf-8'))
         self.current_text = f'[{self._cur_time()}] - [SEND] - {cmd}\n' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
 
+        # Установка флага ручная команда
+        self.man_mode_flag = True
+
         # high-level software checksum
         # Контрольная сумма, рассчитанное GUI. Сравнивается с контрольной суммой, полученной от нижнего уровня.
-        self.hl_cs = ord(self.test.calculateChecksum(cmd.encode('utf-8')))
-        #QtCore.QTimer.singleShot(100, lambda: self._confirm_cs(self.hl_cs))
+        self.calculated_cs_man_mode = ord(self.test.calculateChecksum(cmd.encode('utf-8')))
+        QtCore.QTimer.singleShot(1000, lambda: self._manTimerActions(self.calculated_cs_man_mode))
 
-    def auto_mode(self):
+    def _manTimerActions(self, calc_cs):
+        if self.reader.glob_cs_man_mode == self.calculated_cs_man_mode:
+            self.reader.glob_cs_man_mode = None
+            self.calculated_cs_man_mode = None
+            self.man_mode_flag = False
+            self.counter_man_mode = 0
+        else:
+            self.reader.glob_cs_man_mode = None
+            self.calculated_cs_man_mode = None
+            self.man_mode_flag = False
+            self.counter_man_mode += 1
+
+    def _auto_mode(self):
         """Автоматический режим управления аппаратом"""
         pass
 
-    def remote_mode(self):
+    def _remote_mode(self):
         """Удаленый режим управления аппаратом (с пульта)"""
         pass
 
-    def ctrl_motor(self):
+    def _ctrl_motor(self):
         """Запуск останов мотора"""
         pass
 

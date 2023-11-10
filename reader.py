@@ -49,6 +49,9 @@ class Reader(QRunnable):
         self.GYRO_z: int = 0
         self.Gnd_Heading: int = 0
 
+        #MANUAL CMD
+        self.glob_cs_man_mode = None
+
 
     def __base_proccesor(self, sline):
         """ Обработка полученной строки """
@@ -94,6 +97,7 @@ class Reader(QRunnable):
         self.GrndSpeed = float(data[9])
         # Сигнал успешно полученны данные
         self.signals.rcv_gps_data.emit()
+        
 
 
     def _imu_proccesor(self, sline):
@@ -115,6 +119,10 @@ class Reader(QRunnable):
         # Сигнал успешно полученны данные
         self.signals.rcv_imu_data.emit()
 
+    def _man_cmd_request(self, sline):
+        rcv_cs = sline.split('*')[1].split(',')[1]
+        self.glob_cs_man_mode = rcv_cs
+
 
     def run(self):
         while True:
@@ -122,7 +130,9 @@ class Reader(QRunnable):
                 if self.ser.is_open:
                     line = self.ser.readline()
                     sline = str(line, 'UTF-8')
-                
+
+                    sline = 'D,s,3,*,54,\r\n'
+
                     _msg_type = sline[0:5]
                     match _msg_type:
                         case 'D,s,1':
@@ -130,6 +140,8 @@ class Reader(QRunnable):
                             self._gps_proccesor(sline) # Полученны данные GPS
                         case 'D,s,2': 
                             self._imu_proccesor(sline) # Полученны данные IMU
+                        case 'D,s,3':
+                            self._man_cmd_request(sline) # Получен ответ на ручную команду управления
                         case _:
                             print('Undefined command') # Неизвестная команда
 
