@@ -24,14 +24,14 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(747, 702)
+        MainWindow.resize(749, 740)
         MainWindow.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:0.506, y1:0, x2:0.494591, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(31, 56, 71, 255))")
         MainWindow.setAnimated(True)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.main_frame = QFrame(self.centralwidget)
         self.main_frame.setObjectName(u"main_frame")
-        self.main_frame.setGeometry(QRect(20, 490, 331, 71))
+        self.main_frame.setGeometry(QRect(20, 517, 331, 71))
         self.main_frame.setStyleSheet(u"border: 2px solid rgb(187, 195, 211);\n"
 "border-radius: 5px;\n"
 "background-color: none;")
@@ -81,7 +81,7 @@ class Ui_MainWindow(object):
 
         self.text_frame = QFrame(self.centralwidget)
         self.text_frame.setObjectName(u"text_frame")
-        self.text_frame.setGeometry(QRect(360, 10, 381, 661))
+        self.text_frame.setGeometry(QRect(360, 37, 381, 661))
         self.text_frame.setStyleSheet(u"border: 2px solid rgb(187, 195, 211);\n"
 "border-radius: 5px;\n"
 "background-color: none;")
@@ -148,7 +148,7 @@ class Ui_MainWindow(object):
 
         self.req_frame = QFrame(self.centralwidget)
         self.req_frame.setObjectName(u"req_frame")
-        self.req_frame.setGeometry(QRect(20, 130, 331, 111))
+        self.req_frame.setGeometry(QRect(20, 157, 331, 111))
         self.req_frame.setStyleSheet(u"border: 2px solid rgb(187, 195, 211);\n"
 "border-radius: 5px;\n"
 "background-color: none;")
@@ -238,7 +238,7 @@ class Ui_MainWindow(object):
 
         self.mode_frame = QFrame(self.centralwidget)
         self.mode_frame.setObjectName(u"mode_frame")
-        self.mode_frame.setGeometry(QRect(20, 250, 331, 151))
+        self.mode_frame.setGeometry(QRect(20, 277, 331, 151))
         self.mode_frame.setStyleSheet(u"border: 2px solid rgb(187, 195, 211);\n"
 "border-radius: 5px;\n"
 "background-color: none;")
@@ -357,7 +357,7 @@ class Ui_MainWindow(object):
 
         self.mtr_ctrl_frame = QFrame(self.centralwidget)
         self.mtr_ctrl_frame.setObjectName(u"mtr_ctrl_frame")
-        self.mtr_ctrl_frame.setGeometry(QRect(20, 410, 331, 71))
+        self.mtr_ctrl_frame.setGeometry(QRect(20, 437, 331, 71))
         self.mtr_ctrl_frame.setStyleSheet(u"border: 2px solid rgb(187, 195, 211);\n"
 "border-radius: 5px;\n"
 "background-color: none;")
@@ -410,7 +410,7 @@ class Ui_MainWindow(object):
 
         self.main_conn_frame = QFrame(self.centralwidget)
         self.main_conn_frame.setObjectName(u"main_conn_frame")
-        self.main_conn_frame.setGeometry(QRect(20, 10, 331, 111))
+        self.main_conn_frame.setGeometry(QRect(20, 37, 331, 111))
         self.main_conn_frame.setStyleSheet(u"border: 2px solid rgb(187, 195, 211);\n"
 "border-radius: 5px;\n"
 "background-color: none;")
@@ -424,7 +424,7 @@ class Ui_MainWindow(object):
 "border: none;\n"
 "font: bold;\n"
 "color: rgb(187, 195, 211);")
-        self.label.setAlignment(Qt.AlignCenter)
+        self.label.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.verticalLayout_5.addWidget(self.label)
 
@@ -556,7 +556,7 @@ class Ui_MainWindow(object):
 
         self.main_mnl_frame = QFrame(self.centralwidget)
         self.main_mnl_frame.setObjectName(u"main_mnl_frame")
-        self.main_mnl_frame.setGeometry(QRect(20, 570, 331, 101))
+        self.main_mnl_frame.setGeometry(QRect(20, 597, 331, 101))
         self.main_mnl_frame.setStyleSheet(u"border: 2px solid rgb(187, 195, 211);\n"
 "border-radius: 5px;\n"
 "background-color: none;")
@@ -630,6 +630,14 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_9.addWidget(self.frame)
 
+        self.indicator_link = QLabel(self.centralwidget)
+        self.indicator_link.setObjectName(u"indicator_link")
+        self.indicator_link.setGeometry(QRect(260, 10, 71, 21))
+        self.indicator_link.setStyleSheet(u"background-color: None;")
+        self.indicator_crc = QLabel(self.centralwidget)
+        self.indicator_crc.setObjectName(u"indicator_crc")
+        self.indicator_crc.setGeometry(QRect(360, 10, 71, 21))
+        self.indicator_crc.setStyleSheet(u"background-color: None;")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -655,7 +663,7 @@ class Ui_MainWindow(object):
         self.btn_rmt_mode.setText(QCoreApplication.translate("MainWindow", u"\u0414\u0438\u0441\u0442\u0430\u043d\u0446\u0438\u043e\u043d\u043d\u044b\u0439", None))
         self.lb_mode_2.setText(QCoreApplication.translate("MainWindow", u"\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0434\u0432\u0438\u0433\u0430\u0442\u0435\u043b\u0435\u043c", None))
         self.btn_ctrl_mtr.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0442\u0430\u0440\u0442", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u0434\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u0435 \u043a \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0443", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"  \u041f\u043e\u0434\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u0435 \u043a \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0443", None))
         self.cb_com_dev.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u041d\u0435 \u0432\u044b\u0431\u0440\u0430\u043d\u043e", None))
         self.cb_baudrate.setItemText(0, QCoreApplication.translate("MainWindow", u"9600", None))
         self.cb_baudrate.setItemText(1, QCoreApplication.translate("MainWindow", u"115200", None))
@@ -666,5 +674,7 @@ class Ui_MainWindow(object):
         self.lb_mnl_cmd.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0432\u043e\u0434 \u043a\u043e\u043c\u0430\u043d\u0434\u044b \u0432\u0440\u0443\u0447\u043d\u0443\u044e", None))
         self.le_mnl_cmd.setText("")
         self.btn_mnl_cmd.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0442\u043f\u0440\u0430\u0432\u0438\u0442\u044c", None))
+        self.indicator_link.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.indicator_crc.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
     # retranslateUi
 

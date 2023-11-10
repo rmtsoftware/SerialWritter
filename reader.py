@@ -127,6 +127,7 @@ class Reader(QRunnable):
     def run(self):
         while True:
             try:
+
                 if self.ser.is_open:
                     line = self.ser.readline()
                     sline = str(line, 'UTF-8')
@@ -151,8 +152,10 @@ class Reader(QRunnable):
                     
                 if not self.ser.is_open:
                     return
+                
             except:
+
                 if self.glob_stop:
                     break
-                pass
+
         return 0

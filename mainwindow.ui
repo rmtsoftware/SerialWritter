@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>747</width>
-    <height>702</height>
+    <width>749</width>
+    <height>740</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>490</y>
+      <y>517</y>
       <width>331</width>
       <height>71</height>
      </rect>
@@ -118,7 +118,7 @@ QLineEdit:hover {
     <property name="geometry">
      <rect>
       <x>360</x>
-      <y>10</y>
+      <y>37</y>
       <width>381</width>
       <height>661</height>
      </rect>
@@ -224,7 +224,7 @@ QPushButton:pressed {
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>130</y>
+      <y>157</y>
       <width>331</width>
       <height>111</height>
      </rect>
@@ -367,7 +367,7 @@ QPushButton:disabled {
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>250</y>
+      <y>277</y>
       <width>331</width>
       <height>151</height>
      </rect>
@@ -546,7 +546,7 @@ QPushButton:disabled {
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>410</y>
+      <y>437</y>
       <width>331</width>
       <height>71</height>
      </rect>
@@ -634,7 +634,7 @@ QPushButton:pressed {
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>10</y>
+      <y>37</y>
       <width>331</width>
       <height>111</height>
      </rect>
@@ -663,10 +663,10 @@ font: bold;
 color: rgb(187, 195, 211);</string>
        </property>
        <property name="text">
-        <string>Подключение к устройству</string>
+        <string>  Подключение к устройству</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
@@ -860,7 +860,7 @@ QPushButton:disabled {
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>570</y>
+      <y>597</y>
       <width>331</width>
       <height>101</height>
      </rect>
@@ -989,6 +989,38 @@ QPushButton:pressed {
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="indicator_link">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>10</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: None;</string>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="indicator_crc">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>10</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: None;</string>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

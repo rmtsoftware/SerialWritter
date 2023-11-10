@@ -6,6 +6,10 @@ from cbprocessor import ComboBoxProcesser
 import ctypes
 from messager import Messager
 
+from PySide6.QtGui import QPixmap
+
+from random import randint
+
 
 class BtnsFunctionality(ComboBoxProcesser):
     def __init__(self):
@@ -37,6 +41,13 @@ class BtnsFunctionality(ComboBoxProcesser):
 
         self.man_mode_flag = False
         self.counter_man_mode = 0
+
+        # Отображение статуса связи
+        self.link_timer = QtCore.QTimer()
+        self.link_timer.timeout.connect(self._link_indicator)
+        self.link_timer.start(100)
+        self.aux_var = 0
+        self.crc_ok = False
 
 
     def send_mnl_cmd(self):
@@ -76,20 +87,66 @@ class BtnsFunctionality(ComboBoxProcesser):
 
         # high-level software checksum
         # Контрольная сумма, рассчитанное GUI. Сравнивается с контрольной суммой, полученной от нижнего уровня.
-        self.calculated_cs_man_mode = ord(self.test.calculateChecksum(cmd.encode('utf-8')))
-        QtCore.QTimer.singleShot(1000, lambda: self._manTimerActions(self.calculated_cs_man_mode))
+        self.calculated_cs_man_mode = ord(self.test.calculateChecksum(cmd.encode('utf-8'))) + randint(0,1)
+        QtCore.QTimer.singleShot(1000, self._manTimerActions)
 
-    def _manTimerActions(self, calc_cs):
-        if self.reader.glob_cs_man_mode == self.calculated_cs_man_mode:
+    def _manTimerActions(self):
+        print(self.reader.glob_cs_man_mode, self.calculated_cs_man_mode)
+        if int(self.reader.glob_cs_man_mode) == int(self.calculated_cs_man_mode):
             self.reader.glob_cs_man_mode = None
             self.calculated_cs_man_mode = None
             self.man_mode_flag = False
             self.counter_man_mode = 0
+            self.crc_ok = True
         else:
             self.reader.glob_cs_man_mode = None
             self.calculated_cs_man_mode = None
             self.man_mode_flag = False
             self.counter_man_mode += 1
+            self.crc_ok = False
+        
+    def _link_indicator(self):
+
+        link_on = QPixmap("./pictures/link_ok.png")
+        link_off = QPixmap("./pictures/link_off.png")
+        link_err = QPixmap("./pictures/link_err.png")
+        link_err_1 = QPixmap("./pictures/link_err_1.png")
+
+        crc_on = QPixmap("./pictures/crc_ok.png")
+        crc_off = QPixmap("./pictures/crc_off.png")
+        crc_err = QPixmap("./pictures/crc_err.png")
+        crc_err_1 = QPixmap("./pictures/crc_err_1.png")
+
+
+        try:
+
+            if self.ser.is_open:
+
+                if self.counter_man_mode == 0:
+                    self.ui.indicator_link.setPixmap(link_on)
+                    self.aux_var = 0
+
+                    if self.crc_ok == True:
+                        self.ui.indicator_crc.setPixmap(crc_on)
+
+                else:
+                    c_indicator = (self.aux_var // 5 ) % 2
+                    if c_indicator == 0: 
+                        self.ui.indicator_crc.setPixmap(crc_err)
+                    if c_indicator == 1: 
+                        self.ui.indicator_crc.setPixmap(crc_err_1)
+                    self.aux_var += 1
+
+            else:
+                self.ui.indicator_link.setPixmap(link_off)
+                self.ui.indicator_crc.setPixmap(crc_off)
+
+        except AttributeError as e:
+            self.ui.indicator_link.setPixmap(link_off)
+            self.ui.indicator_crc.setPixmap(crc_off)
+
+        except Exception as e:
+            print(e)
 
     def _auto_mode(self):
         """Автоматический режим управления аппаратом"""
