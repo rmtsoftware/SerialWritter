@@ -37,6 +37,13 @@ class Messager():
                                      f"Ошибка контрольной суммы GPS",
                                       QtWidgets.QMessageBox.StandardButton.Ok)
         
+    @staticmethod
+    def _imu_check_sum_error():
+        """ Вызов сообщения ошибки -> Ошибка контрольной суммы при получении строки IMU """
+        QtWidgets.QMessageBox.warning(None, "Предупреждение", 
+                                     f"Ошибка контрольной суммы IMU",
+                                      QtWidgets.QMessageBox.StandardButton.Ok)
+        
     
     @staticmethod
     def _invalid_input():

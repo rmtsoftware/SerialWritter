@@ -63,13 +63,14 @@ class SerialConnector(Thread):
         self.ui.btn_disconnect.setEnabled(True)
 
         self._activate_btns() # Активация кнопок
-
-        # Сигнал получения даты
-        self.reader.signals.get_data.connect(self._rcv_data)
-
-        # Сигнал ошибки контрольной суммы GPS
-        self.reader.signals.fault_checksum_gps_data.connect(self._f_checksum_gps)
+        
+        self.reader.signals.rcv_gps_data.connect(self._rcv_gps) # Сигнал упешного получения gps данных
+        self.reader.signals.rcv_imu_data.connect(self._rcv_imu) # Сигнал упешного получения imu данных
+        self.reader.signals.fault_checksum_gps_data.connect(self._f_checksum_gps) # Сигнал ошибки контрольной суммы GPS
+        self.reader.signals.fault_checksum_imu_data.connect(self._f_checksum_imu) # Сигнал ошибки контрольной суммы IMU
+        self.reader.signals.get_data.connect(self._rcv_data) # Общий сигнал получения даты для записи в окно терминала
     
+
     def disconnect_from_ser_dev(self):
         """
         Отключение от последовательного устройства
@@ -84,6 +85,38 @@ class SerialConnector(Thread):
         self.current_com = None
         self.reader.glob_stop = True
 
+
+    def _rcv_gps(self):
+        """
+            Функция вывода данных GPS в графический интерфейс 
+        """
+        self.ui.lb_latitude_val.setText(str(self.reader.Latitude))
+        self.ui.lb_NS_val.setText(str(self.reader.NS))
+        self.ui.lb_longitude_val.setText(str(self.reader.Longitude))
+        self.ui.lb_EW_val.setText(str(self.reader.EW))
+        self.ui.lb_altitude_val.setText(str(self.reader.Altitude))
+        self.ui.lb_year_val.setText(str(self.reader.Year))
+        self.ui.lb_month_val.setText(str(self.reader.Month))
+        self.ui.lb_day_val.setText(str(self.reader.Day))
+        self.ui.lb_time_val.setText(str(self.reader.Time))
+        self.ui.lb_grndSpeed_val.setText(str(self.reader.GrndSpeed))
+
+    def _rcv_imu(self):
+        """
+            Функция вывода данных IMU в графический интерфейс 
+        """
+        self.ui.lb_AXL_x_val.setText(str(self.reader.AXL_x))
+        self.ui.lb_AXL_y_val.setText(str(self.reader.AXL_y))
+        self.ui.lb_AXL_z_val.setText(str(self.reader.AXL_z))
+        self.ui.lb_MAG_x_val.setText(str(self.reader.MAG_x))
+        self.ui.lb_MAG_y_val.setText(str(self.reader.MAG_y))
+        self.ui.lb_MAG_z_val.setText(str(self.reader.MAG_z))
+        self.ui.lb_GYRO_x_val.setText(str(self.reader.GYRO_x))
+        self.ui.lb_GYRO_y_val.setText(str(self.reader.GYRO_y))
+        self.ui.lb_GYRO_z_val.setText(str(self.reader.GYRO_z))
+        self.ui.lb_GndHeading_val.setText(str(self.reader.Gnd_Heading))
+
+
     
     def _rcv_data(self):
         """
@@ -95,7 +128,15 @@ class SerialConnector(Thread):
     
 
     def _f_checksum_gps(self):
+        """ вызов message box в случае ошибки контр.суммы по GPS"""
         Messager._gps_check_sum_error()
+
+
+    def _f_checksum_imu(self):
+        """ вызов message box в случае ошибки контр.суммы по IMU"""
+        Messager._imu_check_sum_error()
+
+    
 
     # При закрытии приложениии автоматически закрывается открытый ранее порт
     def closeEvent(self, event):
