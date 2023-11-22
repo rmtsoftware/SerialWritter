@@ -12,6 +12,7 @@ from random import randint
 
 
 class BtnsFunctionality(ComboBoxProcesser):
+    
     def __init__(self):
         super().__init__()
 
@@ -40,6 +41,7 @@ class BtnsFunctionality(ComboBoxProcesser):
         self.test.calculateChecksum.argtypes = [ctypes.POINTER(ctypes.c_char), ]
 
         self.man_mode_flag = False
+        self.gps_mode_flag = False
         self.counter_man_mode = 0
 
         # Отображение статуса связи
@@ -48,6 +50,18 @@ class BtnsFunctionality(ComboBoxProcesser):
         self.link_timer.start(100)
         self.aux_var = 0
         self.crc_ok = False
+        
+        #Установка нулевых значений в фрейм "Данные GPS"
+        self.ui.lb_latitude_val.setText('0')
+        self.ui.lb_NS_val.setText('0')
+        self.ui.lb_longitude_val.setText('0')
+        self.ui.lb_EW_val.setText('0')
+        self.ui.lb_altitude_val.setText('0')
+        self.ui.lb_year_val.setText('0')
+        self.ui.lb_month_val.setText('0')
+        self.ui.lb_day_val.setText('0')
+        self.ui.lb_time_val.setText('0')
+        self.ui.lb_grndSpeed_val.setText('0')
 
 
     def send_mnl_cmd(self):
@@ -91,17 +105,26 @@ class BtnsFunctionality(ComboBoxProcesser):
         QtCore.QTimer.singleShot(1000, self._manTimerActions)
 
     def _manTimerActions(self):
+        
+        def flags_reset():
+            self.reader.glob_cs_man_mode = None
+            self.calculated_cs_man_mode = None
+            self.man_mode_flag = False
+        
         print(self.reader.glob_cs_man_mode, self.calculated_cs_man_mode)
-        if int(self.reader.glob_cs_man_mode) == int(self.calculated_cs_man_mode):
-            self.reader.glob_cs_man_mode = None
-            self.calculated_cs_man_mode = None
-            self.man_mode_flag = False
-            self.counter_man_mode = 0
-            self.crc_ok = True
-        else:
-            self.reader.glob_cs_man_mode = None
-            self.calculated_cs_man_mode = None
-            self.man_mode_flag = False
+        
+        try:
+            if int(self.reader.glob_cs_man_mode) == int(self.calculated_cs_man_mode):
+                flags_reset()
+                self.counter_man_mode = 0
+                self.crc_ok = True
+            else:
+                flags_reset()
+                self.counter_man_mode += 1
+                       
+        except TypeError as e:
+            print("Не полученно ответное сообщение на manual cmd")
+            flags_reset()
             self.counter_man_mode += 1
             self.crc_ok = False
         
@@ -173,9 +196,23 @@ class BtnsFunctionality(ComboBoxProcesser):
         """
         Функция запроса координат GPS
         """
+        if self.gps_mode_flag == True:
+            return
+        
         self.ser.write(b'D,s,4,GPS,*,\r\n')
         self.current_text = f'[{self._cur_time()}] - [SEND] - D,s,4,GPS,*,\r\n\n' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
+        
+        self.gps_mode_flag = True
+        
+        self.gpsTimer = QtCore.QTimer.singleShot(1000, self._gpsTimerActions)
+        
+    def _gpsTimerActions(self):
+        if self.reader.gps_data_ok:
+            print('С ДЖЫПЫЭС ДАТОЙ ВСЁ ОК')
+        else:
+            print('С ДЖЫПЫЭС ДАТОЙ ВСЁ ЧЁ ТО НЕ ТАК')
+        self.gps_mode_flag = False
 
 
     def _get_imu(self):

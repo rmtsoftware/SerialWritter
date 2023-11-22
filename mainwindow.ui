@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>749</width>
-    <height>740</height>
+    <width>1063</width>
+    <height>699</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,8 +23,8 @@
    <widget class="QFrame" name="main_frame">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>517</y>
+      <x>10</x>
+      <y>490</y>
       <width>331</width>
       <height>71</height>
      </rect>
@@ -117,8 +117,8 @@ QLineEdit:hover {
    <widget class="QFrame" name="text_frame">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>37</y>
+      <x>350</x>
+      <y>10</y>
       <width>381</width>
       <height>661</height>
      </rect>
@@ -139,25 +139,56 @@ background-color: none;</string>
       <number>5</number>
      </property>
      <item>
-      <widget class="QLabel" name="label_2">
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>20</height>
-        </size>
-       </property>
+      <widget class="QFrame" name="terminal_header">
        <property name="styleSheet">
-        <string notr="true">font-size: 12pt;
+        <string notr="true">border: none;
+border-radius: none;
+background-color: none;</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-size: 12pt;
 border: none;
 font: bold;
 color: rgb(187, 195, 211);</string>
-       </property>
-       <property name="text">
-        <string>Вывод терминала</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
+          </property>
+          <property name="text">
+           <string>Вывод терминала</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="indicator_link">
+          <property name="styleSheet">
+           <string notr="true">background-color: white;</string>
+          </property>
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="indicator_crc">
+          <property name="styleSheet">
+           <string notr="true">background-color: white;</string>
+          </property>
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </item>
      <item>
@@ -223,8 +254,8 @@ QPushButton:pressed {
    <widget class="QFrame" name="req_frame">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>157</y>
+      <x>10</x>
+      <y>130</y>
       <width>331</width>
       <height>111</height>
      </rect>
@@ -366,8 +397,8 @@ QPushButton:disabled {
    <widget class="QFrame" name="mode_frame">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>277</y>
+      <x>10</x>
+      <y>250</y>
       <width>331</width>
       <height>151</height>
      </rect>
@@ -545,8 +576,8 @@ QPushButton:disabled {
    <widget class="QFrame" name="mtr_ctrl_frame">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>437</y>
+      <x>10</x>
+      <y>410</y>
       <width>331</width>
       <height>71</height>
      </rect>
@@ -633,8 +664,8 @@ QPushButton:pressed {
    <widget class="QFrame" name="main_conn_frame">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>37</y>
+      <x>10</x>
+      <y>10</y>
       <width>331</width>
       <height>111</height>
      </rect>
@@ -859,8 +890,8 @@ QPushButton:disabled {
    <widget class="QFrame" name="main_mnl_frame">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>597</y>
+      <x>10</x>
+      <y>570</y>
       <width>331</width>
       <height>101</height>
      </rect>
@@ -990,37 +1021,353 @@ QPushButton:pressed {
      </item>
     </layout>
    </widget>
-   <widget class="QLabel" name="indicator_link">
+   <widget class="QFrame" name="frame_main_gps_data">
     <property name="geometry">
      <rect>
-      <x>260</x>
+      <x>740</x>
       <y>10</y>
-      <width>71</width>
-      <height>21</height>
+      <width>151</width>
+      <height>471</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: None;</string>
+     <string notr="true">border: 2px solid rgb(187, 195, 211);
+border-radius: 5px;
+background-color: none;</string>
     </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="indicator_crc">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>10</y>
-      <width>71</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: None;</string>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_11">
+     <item>
+      <widget class="QLabel" name="lb_title_gps_data">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-size: 12pt;
+border: none;
+font: bold;
+color: rgb(187, 195, 211);</string>
+       </property>
+       <property name="text">
+        <string>Данные GPS</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="frame_gps_data">
+       <property name="styleSheet">
+        <string notr="true">border: none;</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_10">
+        <item>
+         <widget class="QFrame" name="frame_latitude">
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QLabel" name="lb_latitude">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>Latitude</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_latitude_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>Latitude</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_NS">
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <item>
+            <widget class="QLabel" name="lb_NS">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>NS</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_NS_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>NS</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_longitude">
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <item>
+            <widget class="QLabel" name="lb_longitude">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>Longitude</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_longitude_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>Longitude</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_EW">
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <item>
+            <widget class="QLabel" name="lb_EW">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>EW</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_EW_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>EW</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_altitude">
+          <layout class="QHBoxLayout" name="horizontalLayout_10">
+           <item>
+            <widget class="QLabel" name="lb_altitude">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>Altitude</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_altitude_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>Altitude</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_year">
+          <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <item>
+            <widget class="QLabel" name="lb_year">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>Year</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_year_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>Year</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_month">
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <item>
+            <widget class="QLabel" name="lb_month">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>Month</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_month_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>Month</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_day">
+          <layout class="QHBoxLayout" name="horizontalLayout_13">
+           <item>
+            <widget class="QLabel" name="lb_day">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>Day</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_day_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>Day</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_time">
+          <layout class="QHBoxLayout" name="horizontalLayout_14">
+           <item>
+            <widget class="QLabel" name="lb_time">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>Time</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_time_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>Time</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_grndSpeed">
+          <layout class="QHBoxLayout" name="horizontalLayout_15">
+           <item>
+            <widget class="QLabel" name="lb_grndSpeed">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>GrndSpeed</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_grndSpeed_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>GrndSpeed</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

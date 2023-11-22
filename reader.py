@@ -1,6 +1,7 @@
 from PySide6.QtCore import QObject, Signal, QRunnable
 import datetime
 import ctypes
+from random import randint
 
 class ReaderSignals(QObject):
     get_data = Signal()
@@ -53,7 +54,7 @@ class Reader(QRunnable):
         self.glob_cs_man_mode = None
 
 
-    def __base_proccesor(self, sline):
+    def  __base_proccesor(self, sline):
         """ Обработка полученной строки """
         def parse_gps_data(raw_data):
             """ Парсер """
@@ -61,7 +62,7 @@ class Reader(QRunnable):
 
         # Вычисление контрольной суммы полученного сообщения
         _cS = ord(self.checkSum.calculateChecksum(sline.encode('utf-8')))
-        
+
         # Извлечение контрольной суммы и даты из полученного сообщения
         raw_data, raw_cs = sline.split('*')
         rcv_cs = int(raw_cs.split(',')[1])
@@ -70,20 +71,24 @@ class Reader(QRunnable):
         if rcv_cs != _cS:
             if 'D,s,1':
                 self.signals.fault_checksum_gps_data.emit()
-                return
+                return [0 for _ in range(10)]
             if 'D,s,2':
                 self.signals.fault_checksum_imu_data.emit()
-                return    
+                return [0 for _ in range(10)]
         else:
             data = parse_gps_data(raw_data)
             return data
 
 
     def _gps_proccesor(self, sline):
+        
+        self.gps_data_ok = False
+        
         """
         Обработчик GPS строки
         """
         data = self.__base_proccesor(sline)
+        
         # Запись в атрибуты класса
         self.Latitude = float(data[0])
         self.NS: str = data[1]
@@ -97,6 +102,8 @@ class Reader(QRunnable):
         self.GrndSpeed = float(data[9])
         # Сигнал успешно полученны данные
         self.signals.rcv_gps_data.emit()
+        
+        self.gps_data_ok = True
         
 
 
@@ -132,12 +139,13 @@ class Reader(QRunnable):
                     line = self.ser.readline()
                     sline = str(line, 'UTF-8')
 
-                    sline = 'D,s,3,*,54,\r\n'
-
+                    sline = 'D,s,1,49,5949.08250,N,03019.66393,S,00155.5,2023,10,23,180723.00,0.004,*,96,\r,\n'
+                    #sline = 'D,s,1,49,5949.08250,N00155.5,2023,10,23,180723.00,0.004,*,96,\r,\n'
+                    
+                    #sline = f'D,s,1,49,5949.08250,N,03019.66393,S,00155.5,2023,10,23,180723.00,0.004,*,{96 + randint(0,1)},\r,\n'
                     _msg_type = sline[0:5]
                     match _msg_type:
                         case 'D,s,1':
-                            print('i m here') 
                             self._gps_proccesor(sline) # Полученны данные GPS
                         case 'D,s,2': 
                             self._imu_proccesor(sline) # Полученны данные IMU

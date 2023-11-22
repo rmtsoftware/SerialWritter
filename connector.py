@@ -87,9 +87,20 @@ class SerialConnector(Thread):
 
 
     def _rcv_gps(self):
-        pass
+        """
+            Функция вывода данных GPS в графический интерфейс 
+        """
+        self.ui.lb_latitude_val.setText(str(self.reader.Latitude))
+        self.ui.lb_NS_val.setText(str(self.reader.NS))
+        self.ui.lb_longitude_val.setText(str(self.reader.Longitude))
+        self.ui.lb_EW_val.setText(str(self.reader.EW))
+        self.ui.lb_altitude_val.setText(str(self.reader.Altitude))
+        self.ui.lb_year_val.setText(str(self.reader.Year))
+        self.ui.lb_month_val.setText(str(self.reader.Month))
+        self.ui.lb_day_val.setText(str(self.reader.Day))
+        self.ui.lb_time_val.setText(str(self.reader.Time))
+        self.ui.lb_grndSpeed_val.setText(str(self.reader.GrndSpeed))
 
-    
     def _rcv_imu(self):
         pass
 
