@@ -102,7 +102,20 @@ class SerialConnector(Thread):
         self.ui.lb_grndSpeed_val.setText(str(self.reader.GrndSpeed))
 
     def _rcv_imu(self):
-        pass
+        """
+            Функция вывода данных IMU в графический интерфейс 
+        """
+        self.ui.lb_AXL_x_val.setText(str(self.reader.AXL_x))
+        self.ui.lb_AXL_y_val.setText(str(self.reader.AXL_y))
+        self.ui.lb_AXL_z_val.setText(str(self.reader.AXL_z))
+        self.ui.lb_MAG_x_val.setText(str(self.reader.MAG_x))
+        self.ui.lb_MAG_y_val.setText(str(self.reader.MAG_y))
+        self.ui.lb_MAG_z_val.setText(str(self.reader.MAG_z))
+        self.ui.lb_GYRO_x_val.setText(str(self.reader.GYRO_x))
+        self.ui.lb_GYRO_y_val.setText(str(self.reader.GYRO_y))
+        self.ui.lb_GYRO_z_val.setText(str(self.reader.GYRO_z))
+        self.ui.lb_GndHeading_val.setText(str(self.reader.Gnd_Heading))
+
 
     
     def _rcv_data(self):

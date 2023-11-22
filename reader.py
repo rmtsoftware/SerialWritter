@@ -52,7 +52,10 @@ class Reader(QRunnable):
 
         #MANUAL CMD
         self.glob_cs_man_mode = None
-
+        
+        self.gps_data_ok = False
+        self.imu_data_ok = False
+        
 
     def  __base_proccesor(self, sline):
         """ Обработка полученной строки """
@@ -67,6 +70,9 @@ class Reader(QRunnable):
         raw_data, raw_cs = sline.split('*')
         rcv_cs = int(raw_cs.split(',')[1])
 
+        
+        print(_cS, rcv_cs)
+        print(type(_cS), type(rcv_cs))
         # Ошибка контрольной суммы
         if rcv_cs != _cS:
             if 'D,s,1':
@@ -108,23 +114,93 @@ class Reader(QRunnable):
 
 
     def _imu_proccesor(self, sline):
+        
+        self.imu_data_ok = False
+        
+        def unpack(val):
+            try:
+                return int(val)
+            except Exception as e:
+                print(val)
+                print(e)
+                return 0
+  
         """
         Обработчик IMU строки
         """
+        
+        _c = 0
+        
         data = self.__base_proccesor(sline)
         # Запись в атрибуты класса
-        self.AXL_x = int(data[0])
-        self.AXL_y =  int(data[1])
-        self.AXL_z = int(data[2])
-        self.MAG_x = int(data[3])
-        self.MAG_y = int(data[4])
-        self.MAG_z = int(data[5])
-        self.GYRO_x = int(data[6])
-        self.GYRO_y = int(data[7])
-        self.GYRO_z = int(data[8])
-        self.Gnd_Heading = int(data[9])
+        
+        try:
+            self.AXL_x = unpack(data[0])
+        except Exception as e:
+            print("Ошибка запис AXL_x")
+            _c += 1
+
+        try:    
+            self.AXL_y =  unpack(data[1])
+        except Exception as e:
+            print("Ошибка записи AXL_y")
+            _c += 1
+
+        try:    
+            self.AXL_z = unpack(data[2])
+        except Exception as e:
+            print("Ошибка записи AXL_Z")
+            _c += 1
+
+        try:    
+            self.MAG_x = unpack(data[3])
+        except Exception as e:
+            print("Ошибка записи MAG_x")
+            _c += 1
+
+        try:    
+            self.MAG_y = unpack(data[4])
+        except Exception as e:
+            print("Ошибка записи MAG_y")
+            _c += 1
+
+        try:    
+            self.MAG_z = unpack(data[5])
+        except Exception as e:
+            print("Ошибка записи MAG_z")
+            _c += 1
+
+        try:    
+            self.GYRO_x = unpack(data[6])
+        except Exception as e:
+            print("Ошибка записи GYRO_x")
+            _c += 1
+
+        try:   
+            self.GYRO_y = unpack(data[7])
+        except Exception as e:
+            print("Ошибка записи GYRO_y")
+            _c += 1
+
+        try:    
+            self.GYRO_z = unpack(data[8])
+        except Exception as e:
+            print("Ошибка записи GYRO_z")
+            _c += 1
+
+        try:
+            self.Gnd_Heading = unpack(data[9])
+        except Exception as e:
+            print("Ошибка записи Gnd_Heading")
+            _c += 1
+            
         # Сигнал успешно полученны данные
         self.signals.rcv_imu_data.emit()
+
+        if _c == 0:
+            self.imu_data_ok = True
+        else:
+            _c = 0
 
     def _man_cmd_request(self, sline):
         rcv_cs = sline.split('*')[1].split(',')[1]
@@ -139,10 +215,11 @@ class Reader(QRunnable):
                     line = self.ser.readline()
                     sline = str(line, 'UTF-8')
 
-                    sline = 'D,s,1,49,5949.08250,N,03019.66393,S,00155.5,2023,10,23,180723.00,0.004,*,96,\r,\n'
+                    #sline = 'D,s,1,49,5949.08250,N,03019.66393,S,00155.5,2023,10,23,180723.00,0.004,*,96,\r,\n'
                     #sline = 'D,s,1,49,5949.08250,N00155.5,2023,10,23,180723.00,0.004,*,96,\r,\n'
-                    
                     #sline = f'D,s,1,49,5949.08250,N,03019.66393,S,00155.5,2023,10,23,180723.00,0.004,*,{96 + randint(0,1)},\r,\n'
+                    
+                    sline = "D,s,2,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,185,*,81,\r,\n"
                     _msg_type = sline[0:5]
                     match _msg_type:
                         case 'D,s,1':

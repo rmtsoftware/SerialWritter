@@ -42,6 +42,8 @@ class BtnsFunctionality(ComboBoxProcesser):
 
         self.man_mode_flag = False
         self.gps_mode_flag = False
+        self.imu_mode_flag = False
+        
         self.counter_man_mode = 0
 
         # Отображение статуса связи
@@ -62,6 +64,18 @@ class BtnsFunctionality(ComboBoxProcesser):
         self.ui.lb_day_val.setText('0')
         self.ui.lb_time_val.setText('0')
         self.ui.lb_grndSpeed_val.setText('0')
+        
+        #Установка нулевых значений в фрейм "Данные IMU"
+        self.ui.lb_AXL_x_val.setText('0')
+        self.ui.lb_AXL_y_val.setText('0')
+        self.ui.lb_AXL_z_val.setText('0')
+        self.ui.lb_MAG_x_val.setText('0')
+        self.ui.lb_MAG_y_val.setText('0')
+        self.ui.lb_MAG_z_val.setText('0')
+        self.ui.lb_GYRO_x_val.setText('0')
+        self.ui.lb_GYRO_y_val.setText('0')
+        self.ui.lb_GYRO_z_val.setText('0')
+        self.ui.lb_GndHeading_val.setText('0')
 
 
     def send_mnl_cmd(self):
@@ -140,7 +154,6 @@ class BtnsFunctionality(ComboBoxProcesser):
         crc_err = QPixmap("./pictures/crc_err.png")
         crc_err_1 = QPixmap("./pictures/crc_err_1.png")
 
-
         try:
 
             if self.ser.is_open:
@@ -196,6 +209,7 @@ class BtnsFunctionality(ComboBoxProcesser):
         """
         Функция запроса координат GPS
         """
+        
         if self.gps_mode_flag == True:
             return
         
@@ -211,18 +225,34 @@ class BtnsFunctionality(ComboBoxProcesser):
         if self.reader.gps_data_ok:
             print('С ДЖЫПЫЭС ДАТОЙ ВСЁ ОК')
         else:
-            print('С ДЖЫПЫЭС ДАТОЙ ВСЁ ЧЁ ТО НЕ ТАК')
+            print('С ДЖЫПЫЭС ДАТОЙ ЧЁ ТО НЕ ТАК')
         self.gps_mode_flag = False
+        self.reader.gps_data_ok = False
 
 
     def _get_imu(self):
         """
         Функция запроса координат IMU
         """
+        
+        if self.imu_mode_flag == True:
+            return
+        
         self.ser.write(b'D,s,4,IMU,*,\r\n')
         self.current_text = f'[{self._cur_time()}] - [SEND] - D,s,4,IMU,*,\r\n\n' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
+        
+        self.imu_mode_flag = True
+        
+        self.imuTimer = QtCore.QTimer.singleShot(1000, self._imuTimerActions)
 
+    def _imuTimerActions(self):
+        if self.reader.imu_data_ok:
+            print('С ИМУ ДАТОЙ ВСЁ ОК')
+        else:
+            print('С ИМУ ДАТОЙ ЧЁ ТО НЕ ТАК')
+        self.imu_mode_flag = False
+        self.reader.imu_data_ok = False
 
 
 class ControlDataInLineEdit(BtnsFunctionality):

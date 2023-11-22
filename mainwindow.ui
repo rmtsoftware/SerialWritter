@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1063</width>
-    <height>699</height>
+    <width>1147</width>
+    <height>695</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -171,7 +171,7 @@ color: rgb(187, 195, 211);</string>
         <item>
          <widget class="QLabel" name="indicator_link">
           <property name="styleSheet">
-           <string notr="true">background-color: white;</string>
+           <string notr="true">background-color: none;</string>
           </property>
           <property name="text">
            <string>TextLabel</string>
@@ -181,7 +181,7 @@ color: rgb(187, 195, 211);</string>
         <item>
          <widget class="QLabel" name="indicator_crc">
           <property name="styleSheet">
-           <string notr="true">background-color: white;</string>
+           <string notr="true">background-color: none;</string>
           </property>
           <property name="text">
            <string>TextLabel</string>
@@ -680,7 +680,7 @@ background-color: none;</string>
       <number>1</number>
      </property>
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="lb_main_connection">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -1026,7 +1026,7 @@ QPushButton:pressed {
      <rect>
       <x>740</x>
       <y>10</y>
-      <width>151</width>
+      <width>191</width>
       <height>471</height>
      </rect>
     </property>
@@ -1345,7 +1345,7 @@ border: none;
 color: rgb(187, 195, 211);</string>
              </property>
              <property name="text">
-              <string>GrndSpeed</string>
+              <string>Speed</string>
              </property>
             </widget>
            </item>
@@ -1357,7 +1357,355 @@ border: none;
 color: rgb(187, 195, 211);</string>
              </property>
              <property name="text">
-              <string>GrndSpeed</string>
+              <string>GndSpeed</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QFrame" name="frame_main_imu_data">
+    <property name="geometry">
+     <rect>
+      <x>940</x>
+      <y>10</y>
+      <width>191</width>
+      <height>471</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border: 2px solid rgb(187, 195, 211);
+border-radius: 5px;
+background-color: none;</string>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_15">
+     <item>
+      <widget class="QLabel" name="lb_title_imu_data">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-size: 12pt;
+border: none;
+font: bold;
+color: rgb(187, 195, 211);</string>
+       </property>
+       <property name="text">
+        <string>Данные IMU</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="frame_imu_data">
+       <property name="styleSheet">
+        <string notr="true">border: none;</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_14">
+        <item>
+         <widget class="QFrame" name="frame_AXL_X">
+          <layout class="QHBoxLayout" name="horizontalLayout_26">
+           <item>
+            <widget class="QLabel" name="lb_AXL_x">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>AXL_x</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_AXL_x_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>AXL_x</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_AXL_y">
+          <layout class="QHBoxLayout" name="horizontalLayout_27">
+           <item>
+            <widget class="QLabel" name="lb_AXL_y">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>AXL_y</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_AXL_y_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>AXL_y</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_AXL_z">
+          <layout class="QHBoxLayout" name="horizontalLayout_28">
+           <item>
+            <widget class="QLabel" name="lb_AXL_z">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>AXL_z</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_AXL_z_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>AXL_z</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_MAG_x">
+          <layout class="QHBoxLayout" name="horizontalLayout_29">
+           <item>
+            <widget class="QLabel" name="lb_MAG_x">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>MAG_x</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_MAG_x_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>MAG_x</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_MAG_y">
+          <layout class="QHBoxLayout" name="horizontalLayout_30">
+           <item>
+            <widget class="QLabel" name="lb_MAG_y">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>MAG_y</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_MAG_y_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>MAG_y</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_MAG_z">
+          <layout class="QHBoxLayout" name="horizontalLayout_31">
+           <item>
+            <widget class="QLabel" name="lb_MAG_z">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>MAG_z</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_MAG_z_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>MAG_z</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_GYRO_x">
+          <layout class="QHBoxLayout" name="horizontalLayout_32">
+           <item>
+            <widget class="QLabel" name="lb_GYRO_x">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>GYRO_x</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_GYRO_x_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>GYRO_x</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_GYRO_y">
+          <layout class="QHBoxLayout" name="horizontalLayout_33">
+           <item>
+            <widget class="QLabel" name="lb_GYRO_y">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>GYRO_y</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_GYRO_y_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>GYRO_y</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_GYRO_z">
+          <layout class="QHBoxLayout" name="horizontalLayout_34">
+           <item>
+            <widget class="QLabel" name="lb_GYRO_z">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>GYRO_z</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_GYRO_z_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>GYRO_z</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_GndHeading">
+          <layout class="QHBoxLayout" name="horizontalLayout_35">
+           <item>
+            <widget class="QLabel" name="lb_GndHeading">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>Heading</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lb_GndHeading_val">
+             <property name="styleSheet">
+              <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+             </property>
+             <property name="text">
+              <string>GndHeading</string>
              </property>
             </widget>
            </item>
