@@ -1,13 +1,15 @@
 from PySide6 import QtWidgets, QtGui
 from PySide6.QtCore import QThreadPool
-
 from mainwindow_ui import Ui_MainWindow
-
 import datetime
+
+import logging
 
 class Base(QtWidgets.QMainWindow):
     def __init__(self):
 
+        logging.basicConfig(level=logging.INFO, filename="py_log.log", filemode="a")
+        
         super(Base, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)

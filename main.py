@@ -10,6 +10,8 @@ from PySide6.QtGui import QPixmap
 
 from random import randint
 
+import logging
+
 
 class BtnsFunctionality(ComboBoxProcesser):
     
@@ -36,7 +38,7 @@ class BtnsFunctionality(ComboBoxProcesser):
         self.ui.btn_clean_textBrw.clicked.connect(self._clr_text_brw)
 
         # инициализация объекта подсчёта контрольной суммы на основе С-функции
-        self.test = ctypes.cdll.LoadLibrary('C:\\Users\\m.ishchenko\\Desktop\\Projects\\ANPA\\SerWritter\\c_module\\checksum.dll')
+        self.test = ctypes.cdll.LoadLibrary('.\\c_module\\checksum.dll')
         self.test.calculateChecksum.restype = ctypes.c_char
         self.test.calculateChecksum.argtypes = [ctypes.POINTER(ctypes.c_char), ]
 
@@ -79,6 +81,8 @@ class BtnsFunctionality(ComboBoxProcesser):
 
 
     def send_mnl_cmd(self):
+        logging.info(f"function send_mnl_cmd was called")
+        
         # Получение текста из QLineEdit
         msg = str(self.ui.le_mnl_cmd.text())
         full_str = msg + '\r\n'
@@ -87,14 +91,6 @@ class BtnsFunctionality(ComboBoxProcesser):
         # Добавление записи в терминал
         self.current_text = f'[{self._cur_time()}] - [SEND] - {full_str}' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
-
-
-    #def _confirm_cs(self, hl_cs):
-    #    if hl_cs == self.reader.glob_cs_man_mode:
-    #        print('команда подтверждена!!!')
-    #    else:
-    #        print('команда не подтверждена')
-    #    self.reader.glob_cs_man_mode = None
 
 
     def _manual_mode(self):

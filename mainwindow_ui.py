@@ -24,7 +24,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1147, 695)
+        MainWindow.resize(1138, 695)
         MainWindow.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:0.506, y1:0, x2:0.494591, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(31, 56, 71, 255))")
         MainWindow.setAnimated(True)
         self.centralwidget = QWidget(MainWindow)
@@ -109,13 +109,15 @@ class Ui_MainWindow(object):
 
         self.indicator_link = QLabel(self.terminal_header)
         self.indicator_link.setObjectName(u"indicator_link")
-        self.indicator_link.setStyleSheet(u"background-color: white;")
+        self.indicator_link.setStyleSheet(u"background-color: rgba(255,255,255,0);")
+        self.indicator_link.setAlignment(Qt.AlignCenter)
 
         self.horizontalLayout_2.addWidget(self.indicator_link)
 
         self.indicator_crc = QLabel(self.terminal_header)
         self.indicator_crc.setObjectName(u"indicator_crc")
-        self.indicator_crc.setStyleSheet(u"background-color: white;")
+        self.indicator_crc.setStyleSheet(u"background-color: rgba(255,255,255,0);")
+        self.indicator_crc.setAlignment(Qt.AlignCenter)
 
         self.horizontalLayout_2.addWidget(self.indicator_crc)
 

@@ -22,7 +22,7 @@ class Reader(QRunnable):
         self.glob_stop = False
 
         # Инициализация объекта подсчёта контрольной суммы на основе С-функции
-        self.checkSum = ctypes.cdll.LoadLibrary('C:\\Users\\m.ishchenko\\Desktop\\Projects\\ANPA\\SerWritter\\c_module\\checksum.dll')
+        self.checkSum = ctypes.cdll.LoadLibrary('.\\c_module\\checksum.dll')
         self.checkSum.calculateChecksum.restype = ctypes.c_char
         self.checkSum.calculateChecksum.argtypes = [ctypes.POINTER(ctypes.c_char), ]
 
