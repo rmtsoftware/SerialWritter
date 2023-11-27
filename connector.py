@@ -4,6 +4,7 @@ from messager import Messager
 from estimator import EstimatorCS
 from base import Thread
 import logging
+import datetime
 
 
 class _nSignals(QObject):
@@ -148,7 +149,8 @@ class SerialConnector(Thread):
         """
         Добавление записи в окно вывода текста
         """
-        self.current_text = data + self.current_text + '\n'
+        cut_time = datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
+        self.current_text = f'[{cut_time}] - [RECIEVED] - {data} + \n' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
         
         
