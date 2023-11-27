@@ -43,8 +43,6 @@ class BtnsFunctionality(ComboBoxProcesser):
         self.msg_signals.mov_right.connect(self.actns_press_d)
 
 
-
-
         # кнопки выбора режима управления
         self.ui.btn_mnl_mode.clicked.connect(self._manual_mode)
         self.ui.btn_auto_mode.clicked.connect(self._auto_mode)
@@ -56,52 +54,8 @@ class BtnsFunctionality(ComboBoxProcesser):
         # кнопка отправки мануальной команды
         self.ui.btn_mnl_cmd.clicked.connect(self.send_mnl_cmd)
 
-        
         # кнопка очистки окна вывода текста
         self.ui.btn_clean_textBrw.clicked.connect(self._clr_text_brw)
-
-        # инициализация объекта подсчёта контрольной суммы на основе С-функции
-        self.test = ctypes.cdll.LoadLibrary('.\\c_module\\checksum.dll')
-        self.test.calculateChecksum.restype = ctypes.c_char
-        self.test.calculateChecksum.argtypes = [ctypes.POINTER(ctypes.c_char), ]
-
-        self.man_mode_flag = False
-        self.gps_mode_flag = False
-        self.imu_mode_flag = False
-        
-        self.counter_man_mode = 0
-
-        # Отображение статуса связи
-        self.link_timer = QtCore.QTimer()
-        self.link_timer.timeout.connect(self._link_indicator)
-        self.link_timer.start(100)
-        self.aux_var = 0
-        self.crc_ok = False
-        
-        #Установка нулевых значений в фрейм "Данные GPS"
-        self.ui.lb_latitude_val.setText('0')
-        self.ui.lb_NS_val.setText('0')
-        self.ui.lb_longitude_val.setText('0')
-        self.ui.lb_EW_val.setText('0')
-        self.ui.lb_altitude_val.setText('0')
-        self.ui.lb_year_val.setText('0')
-        self.ui.lb_month_val.setText('0')
-        self.ui.lb_day_val.setText('0')
-        self.ui.lb_time_val.setText('0')
-        self.ui.lb_grndSpeed_val.setText('0')
-        
-        #Установка нулевых значений в фрейм "Данные IMU"
-        self.ui.lb_AXL_x_val.setText('0')
-        self.ui.lb_AXL_y_val.setText('0')
-        self.ui.lb_AXL_z_val.setText('0')
-        self.ui.lb_MAG_x_val.setText('0')
-        self.ui.lb_MAG_y_val.setText('0')
-        self.ui.lb_MAG_z_val.setText('0')
-        self.ui.lb_GYRO_x_val.setText('0')
-        self.ui.lb_GYRO_y_val.setText('0')
-        self.ui.lb_GYRO_z_val.setText('0')
-        self.ui.lb_GndHeading_val.setText('0')
-
 
     def send_mnl_cmd(self):
         logging.info(f"function send_mnl_cmd was called")
@@ -110,7 +64,7 @@ class BtnsFunctionality(ComboBoxProcesser):
 
         full_str = msg + '\r\n' 
         # Запись в порт
-        self.ser.write(bytes(full_str, encoding='utf-8'))
+        self.port.write(QtCore.QByteArray(bytes(full_str, encoding='utf-8')))
         
         # Добавление записи в терминал
         self.current_text = f'[{self._cur_time()}] - [SEND] - {full_str}' + self.current_text
@@ -248,8 +202,7 @@ class BtnsFunctionality(ComboBoxProcesser):
             self.msg_signals.set_gps_data_to_widget.emit(rcv_msg)
             return 0    
     
-        
-        
+
     def _get_imu(self):
         """
         Функция запроса координат IMU
@@ -258,13 +211,7 @@ class BtnsFunctionality(ComboBoxProcesser):
         self.current_text = f'[{self._cur_time()}] - [SEND] - D,s,4,IMU*,\r\n\n' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
     
-        
-    def write_manual(self, direction):
-        cmd = f'D,s,3,{direction},100*\r\n'
-        self.port.write(bytes(cmd, 'utf-8'))
-        self._manCS = self.estimator.get_CS(cmd)
-    
-    
+           
     @QtCore.Slot(object)
     def actns_rcv_imu(self, rcv_msg):
         _calculatedCS = self.estimator.get_CS(rcv_msg)
@@ -278,7 +225,13 @@ class BtnsFunctionality(ComboBoxProcesser):
             print('IMU данные получены успешно')
             self.msg_signals.set_imu_data_to_widget.emit(rcv_msg)
             return 0
-        
+    
+    
+    def write_manual(self, direction):
+        cmd = f'D,s,3,{direction},{self.pwr_mnl}*\r\n'
+        self.port.write(bytes(cmd, 'utf-8'))
+        self._manCS = self.estimator.get_CS(cmd)
+    
         
     @QtCore.Slot(object)
     def actns_rcv_man_perm(self, rcv_msg):

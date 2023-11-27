@@ -37,6 +37,30 @@ class Base(QtWidgets.QMainWindow):
         self.item_in_cb: list = [] # порты доступные в комбобоксе
 
         self.current_text: str = "" # текст в textBrowser
+        
+         #Установка нулевых значений в фрейм "Данные GPS"
+        self.ui.lb_latitude_val.setText('0')
+        self.ui.lb_NS_val.setText('0')
+        self.ui.lb_longitude_val.setText('0')
+        self.ui.lb_EW_val.setText('0')
+        self.ui.lb_altitude_val.setText('0')
+        self.ui.lb_year_val.setText('0')
+        self.ui.lb_month_val.setText('0')
+        self.ui.lb_day_val.setText('0')
+        self.ui.lb_time_val.setText('0')
+        self.ui.lb_grndSpeed_val.setText('0')
+        
+        #Установка нулевых значений в фрейм "Данные IMU"
+        self.ui.lb_AXL_x_val.setText('0')
+        self.ui.lb_AXL_y_val.setText('0')
+        self.ui.lb_AXL_z_val.setText('0')
+        self.ui.lb_MAG_x_val.setText('0')
+        self.ui.lb_MAG_y_val.setText('0')
+        self.ui.lb_MAG_z_val.setText('0')
+        self.ui.lb_GYRO_x_val.setText('0')
+        self.ui.lb_GYRO_y_val.setText('0')
+        self.ui.lb_GYRO_z_val.setText('0')
+        self.ui.lb_GndHeading_val.setText('0')
 
 
     def _activate_btns(self):
