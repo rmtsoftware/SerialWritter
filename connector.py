@@ -5,7 +5,6 @@ from estimator import EstimatorCS
 from base import Thread
 
 
-
 class _nSignals(QObject):
     get_gps = Signal(object)
     get_imu = Signal(object)
@@ -26,7 +25,7 @@ class SerialConnector(Thread):
         
         # Создание объекта последовательного порта
         self.port = QtSerialPort.QSerialPort()
-        #self.port.readyRead.connect(self.readFromSerial)
+        self.port.readyRead.connect(self.readFromSerial)
 
         # Получение и обновление доступных COM-портов каждую 1 с
         self.timer = QTimer()
@@ -83,8 +82,7 @@ class SerialConnector(Thread):
 
         try:
             self.start_listen(self.current_com, self.current_brate)
-            
-            
+             
         # Ошибка возникающая при недоустпности / неопределённости устройства
         # по указанному com-порту
         except Exception as e:
@@ -116,3 +114,28 @@ class SerialConnector(Thread):
         self.ui.btn_disconnect.setEnabled(False)
 
         self.current_com = None
+    
+        
+    def readFromSerial(self):
+        
+        DEBUG = True
+
+        _b_resp = self.port.readAll()
+        _resp =  bytes(_b_resp ).decode()
+        
+        if DEBUG == True:
+            if _resp == 'D,s,4,GPS*\r\n': _resp = 'D,s,1,49,5949.08250,N,03019.66393,S,00155.5,2023,10,23,180723.00,0.004,*,96,\r,\n'
+            if _resp == 'D,s,4,IMU*\r\n': _resp = 'D,s,2,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,185,*,81,\r,\n'
+            if _resp == 'D,s,3,F,100*\r\n': _resp = 'D,s,3,*,27,\r,\n'
+            if _resp == 'D,s,3,B,100*\r\n': _resp = 'D,s,3,*,31,\r,\n'
+            if _resp == 'D,s,3,R,100*\r\n': _resp = 'D,s,3,*,15,\r,\n'
+            if _resp == 'D,s,3,L,100*\r\n': _resp = 'D,s,3,*,17,\r,\n'
+        
+        if _resp[0:5] == 'D,s,1':
+            self.msg_signals.get_gps.emit(_resp)
+            
+        if _resp[0:5] == 'D,s,2':
+            self.msg_signals.get_imu.emit(_resp)
+            
+        if _resp[0:5] == 'D,s,3':
+            self.msg_signals.get_man_perm.emit(_resp)
