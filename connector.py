@@ -1,12 +1,7 @@
-from PySide6.QtCore import QTimer
-
-import serial
-
-from reader import Reader
+from PySide6.QtCore import QIODevice, QTimer, Signal, QObject, Slot
+from PySide6 import QtSerialPort
 from messager import Messager
 from base import Thread
-
-
 
 
 class SerialConnector(Thread):
@@ -16,13 +11,44 @@ class SerialConnector(Thread):
         # Кнопки подключени/отключения в последовательному устройству
         self.ui.btn_connect.clicked.connect(self.connect_to_ser_dev)
         self.ui.btn_disconnect.clicked.connect(self.disconnect_from_ser_dev)
+        
+        # Создание объекта последовательного порта
+        self.port = QtSerialPort.QSerialPort()
+        #self.port.readyRead.connect(self.readFromSerial)
 
         # Получение и обновление доступных COM-портов каждую 1 с
         self.timer = QTimer()
         self.timer.timeout.connect(self._add_item_to_cb)
         self.timer.start(1000)
+    
+        
+    def __init_serial_port(self, current_port, current_brate):
+        self.port.setPortName(current_port)
+        
+        if current_brate == 9600:
+            self.port.setBaudRate(QtSerialPort.QSerialPort.BaudRate.Baud9600)
+        
+        if current_brate == 115200:
+            self.port.setBaudRate(QtSerialPort.QSerialPort.BaudRate.Baud115200)
+            
+        self.port.setParity(QtSerialPort.QSerialPort.Parity.NoParity)
+        self.port.setDataBits(QtSerialPort.QSerialPort.DataBits.Data8)
+        self.port.setStopBits(QtSerialPort.QSerialPort.StopBits.OneStop)
+     
+        
+    def start_listen(self, current_port, current_brate):
+        self.__init_serial_port(current_port, current_brate)
+        self.port.open(QIODevice.OpenModeFlag.ReadWrite)
+        self.port.setDataTerminalReady(True)
+        self._activate_btns()
+        
+        
+    def stop_listen(self):
+        self.port.clear()
+        self.port.close()
+        self._deactivate_btns()
 
-
+    
     def connect_to_ser_dev(self):
         """
         Логика и действия при нажатии кнопки "Подключиться"
@@ -38,112 +64,37 @@ class SerialConnector(Thread):
         self.current_brate = int(self.ui.cb_baudrate.currentText())
 
         try:
-            # создаем объект серийного порта
-            self.ser = serial.Serial(self.current_com, self.current_brate)
-
-            # переоткрываем созданный порт
-            self.ser.close() 
-            self.ser.open()
-
-            # создаем QRunnable объект и запускаем в отдельном потоке
-            # возбежании блокировки основного потока программы
-            self.reader = Reader(self.ser)
-            self.pool.start(self.reader)
-        
+            self.start_listen(self.current_com, self.current_brate)
+            
+            
         # Ошибка возникающая при недоустпности / неопределённости устройства
         # по указанному com-порту
-        except serial.serialutil.SerialException as e:
-            Messager._indefinite_dev(self.current_com)
-            return
+        except Exception as e:
+            print(e) 
+        ####### except serial.serialutil.SerialException as e:
+        #######     Messager._indefinite_dev(self.current_com)
+        #######     return
         
         # Вызов инф.сообщения
-        Messager._dev_connected(self.ser)
+        Messager._dev_connected(self.current_com)
 
         self.ui.btn_connect.setEnabled(False)
         self.ui.btn_disconnect.setEnabled(True)
 
-        self._activate_btns() # Активация кнопок
-        
-        self.reader.signals.rcv_gps_data.connect(self._rcv_gps) # Сигнал упешного получения gps данных
-        self.reader.signals.rcv_imu_data.connect(self._rcv_imu) # Сигнал упешного получения imu данных
-        self.reader.signals.fault_checksum_gps_data.connect(self._f_checksum_gps) # Сигнал ошибки контрольной суммы GPS
-        self.reader.signals.fault_checksum_imu_data.connect(self._f_checksum_imu) # Сигнал ошибки контрольной суммы IMU
-        self.reader.signals.get_data.connect(self._rcv_data) # Общий сигнал получения даты для записи в окно терминала
+        #self.reader.signals.rcv_gps_data.connect(self._rcv_gps) # Сигнал упешного получения gps данных
+        #self.reader.signals.rcv_imu_data.connect(self._rcv_imu) # Сигнал упешного получения imu данных
+        #self.reader.signals.fault_checksum_gps_data.connect(self._f_checksum_gps) # Сигнал ошибки контрольной суммы GPS
+        #self.reader.signals.fault_checksum_imu_data.connect(self._f_checksum_imu) # Сигнал ошибки контрольной суммы IMU
+        #self.reader.signals.get_data.connect(self._rcv_data) # Общий сигнал получения даты для записи в окно терминала
     
-
     def disconnect_from_ser_dev(self):
         """
         Отключение от последовательного устройства
         """
-        self.ser.close() # закрытие порта
-        Messager._dev_disconnect(self.ser) # вызов инф.сообщения
-        self._deactivate_btns() # установка не активного состояния кнопок
+        self.stop_listen()
+        Messager._dev_disconnect(self.current_com) # вызов инф.сообщения
 
         self.ui.btn_connect.setEnabled(True)
         self.ui.btn_disconnect.setEnabled(False)
 
         self.current_com = None
-        self.reader.glob_stop = True
-
-
-    def _rcv_gps(self):
-        """
-            Функция вывода данных GPS в графический интерфейс 
-        """
-        self.ui.lb_latitude_val.setText(str(self.reader.Latitude))
-        self.ui.lb_NS_val.setText(str(self.reader.NS))
-        self.ui.lb_longitude_val.setText(str(self.reader.Longitude))
-        self.ui.lb_EW_val.setText(str(self.reader.EW))
-        self.ui.lb_altitude_val.setText(str(self.reader.Altitude))
-        self.ui.lb_year_val.setText(str(self.reader.Year))
-        self.ui.lb_month_val.setText(str(self.reader.Month))
-        self.ui.lb_day_val.setText(str(self.reader.Day))
-        self.ui.lb_time_val.setText(str(self.reader.Time))
-        self.ui.lb_grndSpeed_val.setText(str(self.reader.GrndSpeed))
-
-    def _rcv_imu(self):
-        """
-            Функция вывода данных IMU в графический интерфейс 
-        """
-        self.ui.lb_AXL_x_val.setText(str(self.reader.AXL_x))
-        self.ui.lb_AXL_y_val.setText(str(self.reader.AXL_y))
-        self.ui.lb_AXL_z_val.setText(str(self.reader.AXL_z))
-        self.ui.lb_MAG_x_val.setText(str(self.reader.MAG_x))
-        self.ui.lb_MAG_y_val.setText(str(self.reader.MAG_y))
-        self.ui.lb_MAG_z_val.setText(str(self.reader.MAG_z))
-        self.ui.lb_GYRO_x_val.setText(str(self.reader.GYRO_x))
-        self.ui.lb_GYRO_y_val.setText(str(self.reader.GYRO_y))
-        self.ui.lb_GYRO_z_val.setText(str(self.reader.GYRO_z))
-        self.ui.lb_GndHeading_val.setText(str(self.reader.Gnd_Heading))
-
-
-    
-    def _rcv_data(self):
-        """
-        Добавление записи в окно вывода текста
-        """
-        if self.ser is not None:
-            self.current_text = self.reader.glob_line + self.current_text + '\n'
-            self.ui.textBrowser.setText(self.current_text)
-    
-
-    def _f_checksum_gps(self):
-        """ вызов message box в случае ошибки контр.суммы по GPS"""
-        Messager._gps_check_sum_error()
-
-
-    def _f_checksum_imu(self):
-        """ вызов message box в случае ошибки контр.суммы по IMU"""
-        Messager._imu_check_sum_error()
-
-    
-
-    # При закрытии приложениии автоматически закрывается открытый ранее порт
-    def closeEvent(self, event):
-
-        try:
-            self.ser.close()
-        except AttributeError as _ :
-            pass
-        
-        event.accept()

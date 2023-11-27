@@ -2,14 +2,10 @@
 from PySide6 import QtCore
 import sys
 from cbprocessor import ComboBoxProcesser
-
 import ctypes
 from messager import Messager
-
 from PySide6.QtGui import QPixmap
-
 from random import randint
-
 import logging
 
 

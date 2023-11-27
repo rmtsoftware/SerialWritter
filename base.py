@@ -43,17 +43,15 @@ class Base(QtWidgets.QMainWindow):
         """
         Функция активации кнопок управления
         """
-        if self.ser.is_open:
-            for btn in self.all_btns:
-                btn.setEnabled(True)
+        for btn in self.all_btns:
+            btn.setEnabled(True)
 
     def _deactivate_btns(self):
         """
         Функция деактивации кнопок управления
         """
-        if not self.ser.is_open:
-            for btn in self.all_btns:
-                btn.setEnabled(False)
+        for btn in self.all_btns:
+            btn.setEnabled(False)
 
     def _cur_time(self):
         return datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
