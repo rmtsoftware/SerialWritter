@@ -42,6 +42,8 @@ class SerialConnector(Thread):
         
         # Инициализация вычислителя контрольной суммы
         self.estimator = EstimatorCS()
+        
+        self.buffer = ''
     
         
     def __init_serial_port(self, current_port, current_brate):
@@ -124,19 +126,35 @@ class SerialConnector(Thread):
         """
         Основная функция чтения данных из последовательного порта
         """
-        
         DEBUG = True
-
+        
         _b_resp = self.port.readAll().data()
-        _resp =  bytes(_b_resp).decode()
-    
-        if DEBUG == True:
-            if _resp == 'D,s,4,GPS*\r\n': _resp = 'D,s,1,49,5949.08250,N,03019.66393,S,00155.5,2023,10,23,180723.00,0.004,*,96,\r,\n'
-            if _resp == 'D,s,4,IMU*\r\n': _resp = 'D,s,2,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,185,*,81,\r,\n'
-            if _resp == 'D,s,3,F,100*\r\n': _resp = 'D,s,3,*,27,\r,\n'
-            if _resp == 'D,s,3,B,100*\r\n': _resp = 'D,s,3,*,31,\r,\n'
-            if _resp == 'D,s,3,R,100*\r\n': _resp = 'D,s,3,*,15,\r,\n'
-            if _resp == 'D,s,3,L,100*\r\n': _resp = 'D,s,3,*,17,\r,\n'
+        _resp0 =  bytes(_b_resp).decode()
+        
+        self.buffer += _resp0
+        
+        coindence = 0
+        for idx, sym in enumerate(self.buffer):
+            if sym == '\r':
+                if self.buffer[idx+1] == '\n':
+                    _resp = self.buffer[0:idx+2]
+                    self.buffer = self.buffer[idx+3:]
+                    coindence += 1
+                    break
+        
+        if coindence == 0:
+            return
+        
+        if DEBUG == True:                            
+            if _resp == 'D,s,4,GPS,*,\r\n': _resp = 'D,s,1,49,5949.08250,N,03019.66393,S,00155.5,2023,10,23,180723.00,0.004,*,96,\r,\n'
+            #if _resp == 'D,s,4,GPS,*,\r\n': print('ya zdes')
+            elif _resp == 'D,s,4,IMU,*,\r\n': _resp = 'D,s,2,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,185,*,81,\r,\n'
+            elif _resp == 'D,s,3,F,100,*,\r\n': _resp = 'D,s,3,*,55,\r,\n'
+            elif _resp == 'D,s,3,B,100,*,\r\n': _resp = 'D,s,3,*,51,\r,\n'
+            elif _resp == 'D,s,3,R,100,*,\r\n': _resp = 'D,s,3,*,35,\r,\n'
+            elif _resp == 'D,s,3,L,100,*,\r\n': _resp = 'D,s,3,*,61,\r,\n'
+            else: pass
+            
             
         self._add_to_textBrowser(_resp)
         

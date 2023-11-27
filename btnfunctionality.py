@@ -183,8 +183,9 @@ class BtnsFunctionality(ComboBoxProcesser):
         """
         Функция запроса координат GPS
         """
-        self.port.write(QtCore.QByteArray(bytes('D,s,4,GPS*\r\n', 'utf-8')))
-        self.current_text = f'[{self._cur_time()}] - [SEND] - D,s,4,GPS*,\r\n\n' + self.current_text
+        cmd = 'D,s,4,GPS,*,\r\n'.encode("utf-8")
+        self.port.write(cmd)
+        self.current_text = f'[{self._cur_time()}] - [SEND] - {cmd.decode('utf-8')}' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
     
     
@@ -207,8 +208,8 @@ class BtnsFunctionality(ComboBoxProcesser):
         """
         Функция запроса координат IMU
         """
-        self.port.write(QtCore.QByteArray(bytes('D,s,4,IMU*\r\n', 'utf-8')))
-        self.current_text = f'[{self._cur_time()}] - [SEND] - D,s,4,IMU*,\r\n\n' + self.current_text
+        self.port.write(QtCore.QByteArray(bytes('D,s,4,IMU,*,\r\n', 'utf-8')))
+        self.current_text = f'[{self._cur_time()}] - [SEND] - D,s,4,IMU,*,\r\n\n' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
     
            
@@ -228,11 +229,14 @@ class BtnsFunctionality(ComboBoxProcesser):
     
     
     def write_manual(self, direction):
-        cmd = f'D,s,3,{direction},{self.pwr_mnl}*\r\n'
+        cmd = f'D,s,3,{direction},{self.pwr_mnl},*,\r\n'
         self.port.write(bytes(cmd, 'utf-8'))
         self._manCS = self.estimator.get_CS(cmd)
-    
         
+        self.current_text = f'[{self._cur_time()}] - [SEND] - {cmd}' + self.current_text
+        self.ui.textBrowser.setText(self.current_text)
+        
+      
     @QtCore.Slot(object)
     def actns_rcv_man_perm(self, rcv_msg):
         try:
