@@ -3,6 +3,7 @@ from PySide6 import QtSerialPort
 from messager import Messager
 from estimator import EstimatorCS
 from base import Thread
+import logging
 
 
 class _nSignals(QObject):
@@ -109,20 +110,23 @@ class SerialConnector(Thread):
         """
         self.stop_listen()
         Messager._dev_disconnect(self.current_com) # вызов инф.сообщения
-
         self.ui.btn_connect.setEnabled(True)
         self.ui.btn_disconnect.setEnabled(False)
-
         self.current_com = None
     
         
     def readFromSerial(self):
+        """
+        Основная функция чтения данных из последовательного порта
+        """
         
         DEBUG = True
 
         _b_resp = self.port.readAll()
         _resp =  bytes(_b_resp ).decode()
         
+        self._add_to_textBrowser(_resp)
+    
         if DEBUG == True:
             if _resp == 'D,s,4,GPS*\r\n': _resp = 'D,s,1,49,5949.08250,N,03019.66393,S,00155.5,2023,10,23,180723.00,0.004,*,96,\r,\n'
             if _resp == 'D,s,4,IMU*\r\n': _resp = 'D,s,2,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,185,*,81,\r,\n'
@@ -139,3 +143,24 @@ class SerialConnector(Thread):
             
         if _resp[0:5] == 'D,s,3':
             self.msg_signals.get_man_perm.emit(_resp)
+            
+    def _add_to_textBrowser(self, data):
+        """
+        Добавление записи в окно вывода текста
+        """
+        self.current_text = data + self.current_text + '\n'
+        self.ui.textBrowser.setText(self.current_text)
+        
+        
+    # При закрытии приложениии автоматически закрывается открытый ранее порт
+    # если какая то ошибка то записывается в log
+    def closeEvent(self, event):
+        try:
+            self.stop_listen()
+        except AttributeError as _ :
+            pass
+        except Exception as e:
+            logging.error("Ошибка при закрытии: ↓↓↓↓↓↓")
+            logging.error(e)
+        finally:
+            event.accept()
