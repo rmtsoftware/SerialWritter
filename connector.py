@@ -1,4 +1,4 @@
-from PySide6.QtCore import QIODevice, QTimer, Signal, QObject, Slot
+from PySide6.QtCore import QIODevice, QTimer, Signal, QObject, Slot, QByteArray
 from PySide6 import QtSerialPort
 from messager import Messager
 from estimator import EstimatorCS
@@ -14,7 +14,10 @@ class _nSignals(QObject):
     mov_forw = Signal()
     mov_back = Signal()
     mov_left = Signal()
-    mov_right= Signal()
+    mov_right = Signal()
+    
+    set_gps_data_to_widget = Signal(object)
+    set_imu_data_to_widget = Signal(object)
 
 
 class SerialConnector(Thread):
@@ -117,16 +120,15 @@ class SerialConnector(Thread):
     
         
     def readFromSerial(self):
+        
         """
         Основная функция чтения данных из последовательного порта
         """
         
         DEBUG = True
 
-        _b_resp = self.port.readAll()
-        _resp =  bytes(_b_resp ).decode()
-        
-        self._add_to_textBrowser(_resp)
+        _b_resp = self.port.readAll().data()
+        _resp =  bytes(_b_resp).decode()
     
         if DEBUG == True:
             if _resp == 'D,s,4,GPS*\r\n': _resp = 'D,s,1,49,5949.08250,N,03019.66393,S,00155.5,2023,10,23,180723.00,0.004,*,96,\r,\n'
@@ -135,6 +137,8 @@ class SerialConnector(Thread):
             if _resp == 'D,s,3,B,100*\r\n': _resp = 'D,s,3,*,31,\r,\n'
             if _resp == 'D,s,3,R,100*\r\n': _resp = 'D,s,3,*,15,\r,\n'
             if _resp == 'D,s,3,L,100*\r\n': _resp = 'D,s,3,*,17,\r,\n'
+            
+        self._add_to_textBrowser(_resp)
         
         if _resp[0:5] == 'D,s,1':
             self.msg_signals.get_gps.emit(_resp)
@@ -144,13 +148,13 @@ class SerialConnector(Thread):
             
         if _resp[0:5] == 'D,s,3':
             self.msg_signals.get_man_perm.emit(_resp)
+    
             
     def _add_to_textBrowser(self, data):
         """
         Добавление записи в окно вывода текста
         """
-        cut_time = datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
-        self.current_text = f'[{cut_time}] - [RECIEVED] - {data} + \n' + self.current_text
+        self.current_text = f'[{self._cur_time()}] - [RECIEVED] - ' + data + self.current_text
         self.ui.textBrowser.setText(self.current_text)
         
         

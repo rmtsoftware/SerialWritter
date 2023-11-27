@@ -13,10 +13,37 @@ class BtnsFunctionality(ComboBoxProcesser):
     
     def __init__(self):
         super().__init__()
-
-        # кнопки запроса gps и imu
+        
+        #############################################################
+        # Кнопки запроса gps
         self.ui.btn_gps.clicked.connect(self._get_gps)
+        # дейсвтия по получению ответа на запрос GPS
+        self.msg_signals.get_gps.connect(self.actns_rcv_gps)
+        self.msg_signals.set_gps_data_to_widget.connect(self._rcv_gps)
+        
+        ############################################################## 
+        # Кнопки запроса IMU
         self.ui.btn_imu.clicked.connect(self._get_imu)
+        # дейсвтия по получению ответа на запрос IMU
+        self.msg_signals.get_imu.connect(self.actns_rcv_imu)
+        self.msg_signals.set_imu_data_to_widget.connect(self._rcv_imu)
+        
+        
+        ##############################################################
+        # Ручное управление кнопками WASD 
+        self._manCS = 0
+        self._w_flag = False
+        self._a_flag = False
+        self._s_flag = False
+        self._d_flag = False
+        self.msg_signals.get_man_perm.connect(self.actns_rcv_man_perm)
+        self.msg_signals.mov_forw.connect(self.actns_press_w)
+        self.msg_signals.mov_back.connect(self.actns_press_s)
+        self.msg_signals.mov_left.connect(self.actns_press_a)
+        self.msg_signals.mov_right.connect(self.actns_press_d)
+
+
+
 
         # кнопки выбора режима управления
         self.ui.btn_mnl_mode.clicked.connect(self._manual_mode)
@@ -202,44 +229,137 @@ class BtnsFunctionality(ComboBoxProcesser):
         """
         Функция запроса координат GPS
         """
-        
-        if self.gps_mode_flag == True:
-            return
-        
-        self.ser.write(b'D,s,4,GPS,*,\r\n')
-        self.current_text = f'[{self._cur_time()}] - [SEND] - D,s,4,GPS,*,\r\n\n' + self.current_text
+        self.port.write(QtCore.QByteArray(bytes('D,s,4,GPS*\r\n', 'utf-8')))
+        self.current_text = f'[{self._cur_time()}] - [SEND] - D,s,4,GPS*,\r\n\n' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
-        
-        self.gps_mode_flag = True
-        self.gpsTimer = QtCore.QTimer.singleShot(1000, self._gpsTimerActions)
-        
-    def _gpsTimerActions(self):
-        if self.reader.gps_data_ok: print('GPS data ok')
-        else: print('GPS data FAULT')
-        self.gps_mode_flag = False
-        self.reader.gps_data_ok = False
+    
+    
+    @QtCore.Slot(object)
+    def actns_rcv_gps(self, rcv_msg):
+        _calculatedCS = self.estimator.get_CS(rcv_msg)
+        _parsedCS = int(rcv_msg.split(',')[-3:-2][0])
 
-
+        if _calculatedCS != _parsedCS:
+            logging.error("CRC error with GPS data")
+            return -1
+        
+        if _calculatedCS == _parsedCS:
+            logging.info('GPS data received successfully ')
+            self.msg_signals.set_gps_data_to_widget.emit(rcv_msg)
+            return 0    
+    
+        
+        
     def _get_imu(self):
         """
         Функция запроса координат IMU
         """
-        
-        if self.imu_mode_flag == True:
-            return
-        
-        self.ser.write(b'D,s,4,IMU,*,\r\n')
-        self.current_text = f'[{self._cur_time()}] - [SEND] - D,s,4,IMU,*,\r\n\n' + self.current_text
+        self.port.write(QtCore.QByteArray(bytes('D,s,4,IMU*\r\n', 'utf-8')))
+        self.current_text = f'[{self._cur_time()}] - [SEND] - D,s,4,IMU*,\r\n\n' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
+    
         
-        self.imu_mode_flag = True
+    def write_manual(self, direction):
+        cmd = f'D,s,3,{direction},100*\r\n'
+        self.port.write(bytes(cmd, 'utf-8'))
+        self._manCS = self.estimator.get_CS(cmd)
+    
+    
+    @QtCore.Slot(object)
+    def actns_rcv_imu(self, rcv_msg):
+        _calculatedCS = self.estimator.get_CS(rcv_msg)
+        _parsedCS = int(rcv_msg.split(',')[-3:-2][0])
+
+        if _calculatedCS != _parsedCS:
+            print("Ошибка CRC данных IMU")
+            return -1
         
-        self.imuTimer = QtCore.QTimer.singleShot(1000, self._imuTimerActions)
+        if _calculatedCS == _parsedCS:
+            print('IMU данные получены успешно')
+            self.msg_signals.set_imu_data_to_widget.emit(rcv_msg)
+            return 0
+        
+        
+    @QtCore.Slot(object)
+    def actns_rcv_man_perm(self, rcv_msg):
+        try:
+            _parsedCS = int(rcv_msg.split(',')[-3:-2][0])
+        except Exception as e:
+            print(e)
 
-    def _imuTimerActions(self):
-        if self.reader.imu_data_ok: pass
-        else: pass
-        self.imu_mode_flag = False
-        self.reader.imu_data_ok = False
+        if self._manCS != _parsedCS:
+            print("Ошибка записи ручной команды")
+            print(f"Получено: {rcv_msg}")
+            return -1
+        
+        if self._manCS == _parsedCS:
+            return 0
+        
+        
+    def keyPressEvent(self, event):
+        key_press = event.key()
+
+        if key_press == QtCore.Qt.Key.Key_W:
+            self.msg_signals.mov_forw.emit()
+
+        if key_press == QtCore.Qt.Key.Key_S:
+            self.msg_signals.mov_back.emit()
+
+        if key_press == QtCore.Qt.Key.Key_A:
+            self.msg_signals.mov_left.emit()
+
+        if key_press == QtCore.Qt.Key.Key_D:
+            self.msg_signals.mov_right.emit()
+
+    
+    def actns_press_w(self):
+
+        def _reset_flag():
+            self._w_flag = False
+
+        if self._w_flag == True:
+            return
+        self._w_flag = True
+        self.write_manual('F') # Forward
+        print('Forward')
+        QtCore.QTimer.singleShot(500, _reset_flag)
 
 
+    def actns_press_s(self):
+
+        def _reset_flag():
+            self._s_flag = False
+
+        if self._s_flag == True:
+            return
+        self._s_flag = True
+        self.write_manual('B') # Back
+        print('Back')
+        QtCore.QTimer.singleShot(500, _reset_flag)
+
+
+    def actns_press_a(self):
+
+        def _reset_flag():
+            self._a_flag = False
+
+        if self._a_flag == True:
+            return
+        self._a_flag = True
+        self.write_manual('L') # Left
+        print('Left')
+        QtCore.QTimer.singleShot(500, _reset_flag)
+
+
+    def actns_press_d(self):
+
+        def _reset_flag():
+            self._d_flag = False
+
+        if self._d_flag == True:
+            return
+        self._d_flag = True 
+        self.write_manual('R') # Right
+        print('Right')
+        QtCore.QTimer.singleShot(500, _reset_flag)
+    
