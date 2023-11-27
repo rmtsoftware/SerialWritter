@@ -1,7 +1,19 @@
 from PySide6.QtCore import QIODevice, QTimer, Signal, QObject, Slot
 from PySide6 import QtSerialPort
 from messager import Messager
+from estimator import EstimatorCS
 from base import Thread
+
+
+
+class _nSignals(QObject):
+    get_gps = Signal(object)
+    get_imu = Signal(object)
+    get_man_perm = Signal(object)
+    mov_forw = Signal()
+    mov_back = Signal()
+    mov_left = Signal()
+    mov_right= Signal()
 
 
 class SerialConnector(Thread):
@@ -20,6 +32,12 @@ class SerialConnector(Thread):
         self.timer = QTimer()
         self.timer.timeout.connect(self._add_item_to_cb)
         self.timer.start(1000)
+        
+        # Инициализация сигналов
+        self.msg_signals = _nSignals()
+        
+        # Инициализация вычислителя контрольной суммы
+        self.estimator = EstimatorCS()
     
         
     def __init_serial_port(self, current_port, current_brate):
