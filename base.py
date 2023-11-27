@@ -37,26 +37,88 @@ class Base(QtWidgets.QMainWindow):
         self.item_in_cb: list = [] # порты доступные в комбобоксе
 
         self.current_text: str = "" # текст в textBrowser
+        
+         #Установка нулевых значений в фрейм "Данные GPS"
+        self.ui.lb_latitude_val.setText('0')
+        self.ui.lb_NS_val.setText('0')
+        self.ui.lb_longitude_val.setText('0')
+        self.ui.lb_EW_val.setText('0')
+        self.ui.lb_altitude_val.setText('0')
+        self.ui.lb_year_val.setText('0')
+        self.ui.lb_month_val.setText('0')
+        self.ui.lb_day_val.setText('0')
+        self.ui.lb_time_val.setText('0')
+        self.ui.lb_grndSpeed_val.setText('0')
+        
+        #Установка нулевых значений в фрейм "Данные IMU"
+        self.ui.lb_AXL_x_val.setText('0')
+        self.ui.lb_AXL_y_val.setText('0')
+        self.ui.lb_AXL_z_val.setText('0')
+        self.ui.lb_MAG_x_val.setText('0')
+        self.ui.lb_MAG_y_val.setText('0')
+        self.ui.lb_MAG_z_val.setText('0')
+        self.ui.lb_GYRO_x_val.setText('0')
+        self.ui.lb_GYRO_y_val.setText('0')
+        self.ui.lb_GYRO_z_val.setText('0')
+        self.ui.lb_GndHeading_val.setText('0')
 
 
     def _activate_btns(self):
         """
         Функция активации кнопок управления
         """
-        if self.ser.is_open:
-            for btn in self.all_btns:
-                btn.setEnabled(True)
+        for btn in self.all_btns:
+            btn.setEnabled(True)
 
     def _deactivate_btns(self):
         """
         Функция деактивации кнопок управления
         """
-        if not self.ser.is_open:
-            for btn in self.all_btns:
-                btn.setEnabled(False)
+        for btn in self.all_btns:
+            btn.setEnabled(False)
+
 
     def _cur_time(self):
         return datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
+    
+    
+    def _rcv_gps(self, rcv_msg):
+        """
+            Функция вывода данных GPS в графический интерфейс 
+        """
+
+        raw_data, _ = rcv_msg.split('*')
+        data = raw_data.split(',')[4:-1]
+
+        self.ui.lb_latitude_val.setText(str(data[0]))
+        self.ui.lb_NS_val.setText(str(data[1]))
+        self.ui.lb_longitude_val.setText(str(data[2]))
+        self.ui.lb_EW_val.setText(str(data[3]))
+        self.ui.lb_altitude_val.setText(str(data[4]))
+        self.ui.lb_year_val.setText(str(data[5]))
+        self.ui.lb_month_val.setText(str(data[6]))
+        self.ui.lb_day_val.setText(str(data[7]))
+        self.ui.lb_time_val.setText(str(data[8]))
+        self.ui.lb_grndSpeed_val.setText(str(data[9]))
+        
+    def _rcv_imu(self, rcv_msg):
+        """
+            Функция вывода данных GPS в графический интерфейс 
+        """
+
+        raw_data, _ = rcv_msg.split('*')
+        data = raw_data.split(',')[4:-1]
+
+        self.ui.lb_AXL_x_val.setText(str(data[0]))
+        self.ui.lb_AXL_y_val.setText(str(data[1]))
+        self.ui.lb_AXL_z_val.setText(str(data[2]))
+        self.ui.lb_MAG_x_val.setText(str(data[3]))
+        self.ui.lb_MAG_y_val.setText(str(data[4]))
+        self.ui.lb_MAG_z_val.setText(str(data[5]))
+        self.ui.lb_GYRO_x_val.setText(str(data[6]))
+        self.ui.lb_GYRO_y_val.setText(str(data[7]))
+        self.ui.lb_GYRO_z_val.setText(str(data[8]))
+        self.ui.lb_GndHeading_val.setText(str(data[9]))
         
         
 

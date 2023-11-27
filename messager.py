@@ -3,16 +3,16 @@ from PySide6 import QtWidgets
 class Messager():
 
     @staticmethod
-    def _dev_connected(dev):
+    def _dev_connected(port):
         """ Вызов информацинного сообщения о успешном подключении к устройству """
         QtWidgets.QMessageBox.information(None, "Успешно", 
-                                     f"Подключено устройство {dev.name}",
+                                     f"Подключено устройство {port}",
                                       QtWidgets.QMessageBox.StandardButton.Ok)
     @staticmethod
-    def _dev_disconnect(dev):
+    def _dev_disconnect(port):
         """ Вызов информацинного сообщения о успешном отключении от устройства """
         QtWidgets.QMessageBox.information(None, "Успешно", 
-                                     f"Отключено устройство {dev.name}",
+                                     f"Отключено устройство {port}",
                                       QtWidgets.QMessageBox.StandardButton.Ok)
         
     @staticmethod
