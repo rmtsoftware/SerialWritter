@@ -21,6 +21,15 @@ class BtnsFunctionality(ComboBoxProcesser):
         self.msg_signals.get_gps.connect(self.actns_rcv_gps)
         self.msg_signals.set_gps_data_to_widget.connect(self._rcv_gps)
         
+        #self.timer2 = QtCore.QTimer()
+        #self.timer2.timeout.connect(self._get_gps)
+        #self.timer2.start(300)
+        
+        self.timer1 = QtCore.QTimer()
+        self.timer1.timeout.connect(self._get_imu)
+        self.timer1.start(1000)
+        
+        
         ############################################################## 
         # Кнопки запроса IMU
         self.ui.btn_imu.clicked.connect(self._get_imu)
@@ -192,8 +201,8 @@ class BtnsFunctionality(ComboBoxProcesser):
     @QtCore.Slot(object)
     def actns_rcv_gps(self, rcv_msg):
         _calculatedCS = self.estimator.get_CS(rcv_msg)
-        _parsedCS = int(rcv_msg.split(',')[-3:-2][0])
-
+        _parsedCS =int(rcv_msg.split(',')[-1][1:-2])
+        
         if _calculatedCS != _parsedCS:
             logging.error("CRC error with GPS data")
             return -1
@@ -216,7 +225,7 @@ class BtnsFunctionality(ComboBoxProcesser):
     @QtCore.Slot(object)
     def actns_rcv_imu(self, rcv_msg):
         _calculatedCS = self.estimator.get_CS(rcv_msg)
-        _parsedCS = int(rcv_msg.split(',')[-3:-2][0])
+        _parsedCS =int(rcv_msg.split(',')[-1][1:-2])
 
         if _calculatedCS != _parsedCS:
             print("Ошибка CRC данных IMU")
