@@ -86,7 +86,7 @@ class BtnsFunctionality(ComboBoxProcesser):
         """
         cmd = 'D,s,4,GPS,*\r\n'.encode("utf-8")
         self.port.write(cmd)
-        self.current_text = f'[{self._cur_time()}] - [SEND] -\t{cmd.decode('utf-8')}' + self.current_text
+        self.current_text = f'[{self._cur_time()}] - [SEND] -\t{cmd.decode("utf-8")}' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
     
     
@@ -111,7 +111,7 @@ class BtnsFunctionality(ComboBoxProcesser):
         """
         cmd = 'D,s,4,IMU,*\r\n'.encode("utf-8")
         self.port.write(cmd)
-        self.current_text = f'[{self._cur_time()}] - [SEND] -\t{cmd.decode('utf-8')}' + self.current_text
+        self.current_text = f'[{self._cur_time()}] - [SEND] -\t{cmd.decode("utf-8")}' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
            
     @QtCore.Slot(object)
