@@ -89,7 +89,7 @@ class BtnsFunctionality(ComboBoxProcesser):
         """
         cmd = 'D,s,4,GPS,*\r\n'.encode("utf-8")
         self.port.write(cmd)
-        self.current_text = f'[{self._cur_time()}] - [SEND] -\t{cmd.decode('utf-8')}' + self.current_text
+        self.current_text = f'[{self._cur_time()}] - [SEND] -\t{cmd.decode("utf-8")}' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
     
     
@@ -109,23 +109,13 @@ class BtnsFunctionality(ComboBoxProcesser):
     
 
     def _get_imu(self):
-        try:
-            """
-            Функция запроса координат IMU
-            """
-            cmd = 'D,s,4,IMU,*\r\n'.encode("utf-8")
-            self.port.write(cmd)
-            self.current_text = f'[{self._cur_time()}] - [SEND] -\t{cmd.decode('utf-8')}' + self.current_text
-            self.ui.textBrowser.setText(self.current_text)
-            to_log = f'[{self._cur_time()}] - [SEND] -\t{cmd.decode('utf-8')}' 
-            self.msg_signals.data_send.emit(to_log[0:-2])
-            
-        except Exception as e:
-            err = f'{[{self._cur_time()}]} - {e}'
-            logging.error(err)
-            
-    def data_to_log(self, data):
-        logging.info(data)
+        """
+        Функция запроса координат IMU
+        """
+        cmd = 'D,s,4,IMU,*\r\n'.encode("utf-8")
+        self.port.write(cmd)
+        self.current_text = f'[{self._cur_time()}] - [SEND] -\t{cmd.decode('utf-8')}' + self.current_text
+        self.ui.textBrowser.setText(self.current_text)
            
     @QtCore.Slot(object)
     def actns_rcv_imu(self, rcv_msg):
