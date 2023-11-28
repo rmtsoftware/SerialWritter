@@ -145,19 +145,19 @@ class SerialConnector(Thread):
             return
         
         if DEBUG == True:                            
-            if _resp == 'D,s,4,GPS,*,\r\n': _resp = self.TESTGPSDATA[random.randint(0, len(self.TESTGPSDATA)-1)]
+            if _resp == 'D,s,4,GPS,*\r\n': _resp = self.TESTGPSDATA[random.randint(0, len(self.TESTGPSDATA)-1)]
             #if _resp == 'D,s,4,GPS,*,\r\n': print('ya zdes')
-            elif _resp == 'D,s,4,IMU,*,\r\n': _resp = self.TESTIMUDATA[random.randint(0, len(self.TESTIMUDATA)-1)]
-            elif _resp == 'D,s,3,F,100,*,\r\n': _resp = 'D,s,3,*,55,\r,\n'
-            elif _resp == 'D,s,3,B,100,*,\r\n': _resp = 'D,s,3,*,51,\r,\n'
-            elif _resp == 'D,s,3,R,100,*,\r\n': _resp = 'D,s,3,*,35,\r,\n'
-            elif _resp == 'D,s,3,L,100,*,\r\n': _resp = 'D,s,3,*,61,\r,\n'
+            elif _resp == 'D,s,4,IMU,*\r\n': _resp = self.TESTIMUDATA[random.randint(0, len(self.TESTIMUDATA)-1)]
+            elif _resp == 'D,s,3,F,100,*\r\n': _resp = 'D,s,3,*55\r\n'
+            elif _resp == 'D,s,3,B,100,*\r\n': _resp = 'D,s,3,*51\r\n'
+            elif _resp == 'D,s,3,R,100,*\r\n': _resp = 'D,s,3,*35\r\n'
+            elif _resp == 'D,s,3,L,100,*\r\n': _resp = 'D,s,3,*61\r\n'
             else: pass
             
             
         self._add_to_textBrowser(_resp)
         
-        if _resp[0:5] == 'D,s,1' and _resp[0:7] != 'D,s,1,2':
+        if _resp[0:7] == 'D,s,1,1':
             self.msg_signals.get_gps.emit(_resp)
             
         if _resp[0:7] == 'D,s,1,2':
@@ -171,7 +171,7 @@ class SerialConnector(Thread):
         """
         Добавление записи в окно вывода текста
         """
-        self.current_text = f'[{self._cur_time()}] - [RECIEVED] - ' + data + self.current_text
+        self.current_text = f'[{self._cur_time()}] - [RCVD] -\t' + data + self.current_text
         self.ui.textBrowser.setText(self.current_text)
         
         

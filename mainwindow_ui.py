@@ -24,7 +24,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1138, 695)
+        MainWindow.resize(1432, 695)
         MainWindow.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:0.506, y1:0, x2:0.494591, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(31, 56, 71, 255))")
         MainWindow.setAnimated(True)
         self.centralwidget = QWidget(MainWindow)
@@ -81,7 +81,7 @@ class Ui_MainWindow(object):
 
         self.text_frame = QFrame(self.centralwidget)
         self.text_frame.setObjectName(u"text_frame")
-        self.text_frame.setGeometry(QRect(350, 10, 381, 661))
+        self.text_frame.setGeometry(QRect(350, 10, 711, 661))
         self.text_frame.setStyleSheet(u"border: 2px solid rgb(187, 195, 211);\n"
 "border-radius: 5px;\n"
 "background-color: none;")
@@ -425,6 +425,10 @@ class Ui_MainWindow(object):
 "	border: 1px solid rgb(79, 175, 227);\n"
 "	border-radius: 3px;\n"
 "	color: rgb(0,122,217);\n"
+"}\n"
+"\n"
+"QPushButton:disabled {\n"
+"	background-color: rgb(113, 113, 113);\n"
 "}")
 
         self.verticalLayout_7.addWidget(self.btn_ctrl_mtr)
@@ -647,6 +651,10 @@ class Ui_MainWindow(object):
 "	border: 1px solid rgb(79, 175, 227);\n"
 "	border-radius: 3px;\n"
 "	color: rgb(0,122,217);\n"
+"}\n"
+"\n"
+"QPushButton:disabled {\n"
+"	background-color: rgb(113, 113, 113);\n"
 "}")
 
         self.verticalLayout_8.addWidget(self.btn_mnl_cmd)
@@ -656,7 +664,7 @@ class Ui_MainWindow(object):
 
         self.frame_main_gps_data = QFrame(self.centralwidget)
         self.frame_main_gps_data.setObjectName(u"frame_main_gps_data")
-        self.frame_main_gps_data.setGeometry(QRect(740, 10, 191, 471))
+        self.frame_main_gps_data.setGeometry(QRect(1070, 10, 171, 391))
         self.frame_main_gps_data.setStyleSheet(u"border: 2px solid rgb(187, 195, 211);\n"
 "border-radius: 5px;\n"
 "background-color: none;")
@@ -793,75 +801,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_10.addWidget(self.frame_altitude)
 
-        self.frame_year = QFrame(self.frame_gps_data)
-        self.frame_year.setObjectName(u"frame_year")
-        self.horizontalLayout_11 = QHBoxLayout(self.frame_year)
-        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
-        self.lb_year = QLabel(self.frame_year)
-        self.lb_year.setObjectName(u"lb_year")
-        self.lb_year.setStyleSheet(u"font-size: 10pt;\n"
-"border: none;\n"
-"color: rgb(187, 195, 211);")
-
-        self.horizontalLayout_11.addWidget(self.lb_year)
-
-        self.lb_year_val = QLabel(self.frame_year)
-        self.lb_year_val.setObjectName(u"lb_year_val")
-        self.lb_year_val.setStyleSheet(u"font-size: 10pt;\n"
-"border: none;\n"
-"color: rgb(187, 195, 211);")
-
-        self.horizontalLayout_11.addWidget(self.lb_year_val)
-
-
-        self.verticalLayout_10.addWidget(self.frame_year)
-
-        self.frame_month = QFrame(self.frame_gps_data)
-        self.frame_month.setObjectName(u"frame_month")
-        self.horizontalLayout_12 = QHBoxLayout(self.frame_month)
-        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
-        self.lb_month = QLabel(self.frame_month)
-        self.lb_month.setObjectName(u"lb_month")
-        self.lb_month.setStyleSheet(u"font-size: 10pt;\n"
-"border: none;\n"
-"color: rgb(187, 195, 211);")
-
-        self.horizontalLayout_12.addWidget(self.lb_month)
-
-        self.lb_month_val = QLabel(self.frame_month)
-        self.lb_month_val.setObjectName(u"lb_month_val")
-        self.lb_month_val.setStyleSheet(u"font-size: 10pt;\n"
-"border: none;\n"
-"color: rgb(187, 195, 211);")
-
-        self.horizontalLayout_12.addWidget(self.lb_month_val)
-
-
-        self.verticalLayout_10.addWidget(self.frame_month)
-
-        self.frame_day = QFrame(self.frame_gps_data)
-        self.frame_day.setObjectName(u"frame_day")
-        self.horizontalLayout_13 = QHBoxLayout(self.frame_day)
-        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
-        self.lb_day = QLabel(self.frame_day)
-        self.lb_day.setObjectName(u"lb_day")
-        self.lb_day.setStyleSheet(u"font-size: 10pt;\n"
-"border: none;\n"
-"color: rgb(187, 195, 211);")
-
-        self.horizontalLayout_13.addWidget(self.lb_day)
-
-        self.lb_day_val = QLabel(self.frame_day)
-        self.lb_day_val.setObjectName(u"lb_day_val")
-        self.lb_day_val.setStyleSheet(u"font-size: 10pt;\n"
-"border: none;\n"
-"color: rgb(187, 195, 211);")
-
-        self.horizontalLayout_13.addWidget(self.lb_day_val)
-
-
-        self.verticalLayout_10.addWidget(self.frame_day)
-
         self.frame_time = QFrame(self.frame_gps_data)
         self.frame_time.setObjectName(u"frame_time")
         self.horizontalLayout_14 = QHBoxLayout(self.frame_time)
@@ -908,12 +847,35 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_10.addWidget(self.frame_grndSpeed)
 
+        self.frame_grndSpeed_2 = QFrame(self.frame_gps_data)
+        self.frame_grndSpeed_2.setObjectName(u"frame_grndSpeed_2")
+        self.horizontalLayout_16 = QHBoxLayout(self.frame_grndSpeed_2)
+        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
+        self.lb_rmc_course = QLabel(self.frame_grndSpeed_2)
+        self.lb_rmc_course.setObjectName(u"lb_rmc_course")
+        self.lb_rmc_course.setStyleSheet(u"font-size: 10pt;\n"
+"border: none;\n"
+"color: rgb(187, 195, 211);")
+
+        self.horizontalLayout_16.addWidget(self.lb_rmc_course)
+
+        self.lb_rmc_cource_val = QLabel(self.frame_grndSpeed_2)
+        self.lb_rmc_cource_val.setObjectName(u"lb_rmc_cource_val")
+        self.lb_rmc_cource_val.setStyleSheet(u"font-size: 10pt;\n"
+"border: none;\n"
+"color: rgb(187, 195, 211);")
+
+        self.horizontalLayout_16.addWidget(self.lb_rmc_cource_val)
+
+
+        self.verticalLayout_10.addWidget(self.frame_grndSpeed_2)
+
 
         self.verticalLayout_11.addWidget(self.frame_gps_data)
 
         self.frame_main_imu_data = QFrame(self.centralwidget)
         self.frame_main_imu_data.setObjectName(u"frame_main_imu_data")
-        self.frame_main_imu_data.setGeometry(QRect(940, 10, 191, 471))
+        self.frame_main_imu_data.setGeometry(QRect(1250, 10, 171, 471))
         self.frame_main_imu_data.setStyleSheet(u"border: 2px solid rgb(187, 195, 211);\n"
 "border-radius: 5px;\n"
 "background-color: none;")
@@ -1194,7 +1156,7 @@ class Ui_MainWindow(object):
         self.btn_auto_mode.setText(QCoreApplication.translate("MainWindow", u"\u0410\u0432\u0442\u043e\u043d\u043e\u043c\u043d\u044b\u0439", None))
         self.btn_rmt_mode.setText(QCoreApplication.translate("MainWindow", u"\u0414\u0438\u0441\u0442\u0430\u043d\u0446\u0438\u043e\u043d\u043d\u044b\u0439", None))
         self.lb_mode_2.setText(QCoreApplication.translate("MainWindow", u"\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0434\u0432\u0438\u0433\u0430\u0442\u0435\u043b\u0435\u043c", None))
-        self.btn_ctrl_mtr.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0442\u0430\u0440\u0442", None))
+        self.btn_ctrl_mtr.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0442\u0430\u0440\u0442/\u0441\u0442\u043e\u043f", None))
         self.lb_main_connection.setText(QCoreApplication.translate("MainWindow", u"  \u041f\u043e\u0434\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u0435 \u043a \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0443", None))
         self.cb_com_dev.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u041d\u0435 \u0432\u044b\u0431\u0440\u0430\u043d\u043e", None))
         self.cb_baudrate.setItemText(0, QCoreApplication.translate("MainWindow", u"9600", None))
@@ -1217,16 +1179,12 @@ class Ui_MainWindow(object):
         self.lb_EW_val.setText(QCoreApplication.translate("MainWindow", u"EW", None))
         self.lb_altitude.setText(QCoreApplication.translate("MainWindow", u"Altitude", None))
         self.lb_altitude_val.setText(QCoreApplication.translate("MainWindow", u"Altitude", None))
-        self.lb_year.setText(QCoreApplication.translate("MainWindow", u"Year", None))
-        self.lb_year_val.setText(QCoreApplication.translate("MainWindow", u"Year", None))
-        self.lb_month.setText(QCoreApplication.translate("MainWindow", u"Month", None))
-        self.lb_month_val.setText(QCoreApplication.translate("MainWindow", u"Month", None))
-        self.lb_day.setText(QCoreApplication.translate("MainWindow", u"Day", None))
-        self.lb_day_val.setText(QCoreApplication.translate("MainWindow", u"Day", None))
         self.lb_time.setText(QCoreApplication.translate("MainWindow", u"Time", None))
         self.lb_time_val.setText(QCoreApplication.translate("MainWindow", u"Time", None))
         self.lb_grndSpeed.setText(QCoreApplication.translate("MainWindow", u"Speed", None))
         self.lb_grndSpeed_val.setText(QCoreApplication.translate("MainWindow", u"GndSpeed", None))
+        self.lb_rmc_course.setText(QCoreApplication.translate("MainWindow", u"Course", None))
+        self.lb_rmc_cource_val.setText(QCoreApplication.translate("MainWindow", u"Course", None))
         self.lb_title_imu_data.setText(QCoreApplication.translate("MainWindow", u"\u0414\u0430\u043d\u043d\u044b\u0435 IMU", None))
         self.lb_AXL_x.setText(QCoreApplication.translate("MainWindow", u"AXL_x", None))
         self.lb_AXL_x_val.setText(QCoreApplication.translate("MainWindow", u"AXL_x", None))
