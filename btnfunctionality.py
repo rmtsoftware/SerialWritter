@@ -38,6 +38,9 @@ class BtnsFunctionality(ComboBoxProcesser):
 
         # кнопка очистки окна вывода текста
         self.ui.btn_clean_textBrw.clicked.connect(self._clr_text_brw)
+        
+        self.msg_signals.data_send.connect(self.data_to_log)
+        
 
     def send_mnl_cmd(self):
         logging.info(f"function send_mnl_cmd was called")
@@ -106,13 +109,23 @@ class BtnsFunctionality(ComboBoxProcesser):
     
 
     def _get_imu(self):
-        """
-        Функция запроса координат IMU
-        """
-        cmd = 'D,s,4,IMU,*\r\n'.encode("utf-8")
-        self.port.write(cmd)
-        self.current_text = f'[{self._cur_time()}] - [SEND] -\t{cmd.decode('utf-8')}' + self.current_text
-        self.ui.textBrowser.setText(self.current_text)
+        try:
+            """
+            Функция запроса координат IMU
+            """
+            cmd = 'D,s,4,IMU,*\r\n'.encode("utf-8")
+            self.port.write(cmd)
+            self.current_text = f'[{self._cur_time()}] - [SEND] -\t{cmd.decode('utf-8')}' + self.current_text
+            self.ui.textBrowser.setText(self.current_text)
+            to_log = f'[{self._cur_time()}] - [SEND] -\t{cmd.decode('utf-8')}' 
+            self.msg_signals.data_send.emit(to_log[0:-2])
+            
+        except Exception as e:
+            err = f'{[{self._cur_time()}]} - {e}'
+            logging.error(err)
+            
+    def data_to_log(self, data):
+        logging.info(data)
            
     @QtCore.Slot(object)
     def actns_rcv_imu(self, rcv_msg):

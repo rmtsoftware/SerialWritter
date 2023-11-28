@@ -46,7 +46,7 @@
 - Команда START ДВС: `D,s,ESTART,*\r\n` 
 	Ответ от МB `D,s,ESTART,*CRC\r\n`
 
-- Команда STOP ДВС:  `D,s,ESTOP,*CRC\r\n`
+- Команда STOP ДВС:  `D,s,ESTOP,*\r\n`
 	Ответ от МB `D,s,ESTOP,*CRC\r\n`
 
 - Команда запросить координаты АНПА с NavBoard: `D,s,4,GPS,*\r\n`

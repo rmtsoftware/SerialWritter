@@ -17,6 +17,10 @@ class _nSignals(QObject):
     
     set_gps_data_to_widget = Signal(object)
     set_imu_data_to_widget = Signal(object)
+    
+    data_send = Signal(object)
+    
+    
 
 
 class SerialConnector(Thread):
@@ -65,11 +69,17 @@ class SerialConnector(Thread):
         self.port.setDataTerminalReady(True)
         self._activate_btns()
         
+        self.timer1 = QTimer()
+        self.timer1.timeout.connect(self._get_imu)
+        self.timer1.start(1000)
         
+    
+    
     def stop_listen(self):
         self.port.clear()
         self.port.close()
         self._deactivate_btns()
+        self.timer1.stop()
 
     
     def connect_to_ser_dev(self):
@@ -121,38 +131,45 @@ class SerialConnector(Thread):
     
         
     def readFromSerial(self):
-        
-        """
-        Основная функция чтения данных из последовательного порта
-        """
-        DEBUG = True
-        
-        _b_resp = self.port.readAll().data()
-        _resp0 =  bytes(_b_resp).decode()
-        
-        self.buffer += _resp0
-        
-        coindence = 0
-        for idx, sym in enumerate(self.buffer):
-            if sym == '\r':
-                if self.buffer[idx+1] == '\n':
-                    _resp = self.buffer[0:idx+2]
-                    self.buffer = self.buffer[idx+3:]
-                    coindence += 1
-                    break
-        
-        if coindence == 0:
-            return
-        
-        if DEBUG == True:                            
-            if _resp == 'D,s,4,GPS,*\r\n': _resp = self.TESTGPSDATA[random.randint(0, len(self.TESTGPSDATA)-1)]
-            #if _resp == 'D,s,4,GPS,*,\r\n': print('ya zdes')
-            elif _resp == 'D,s,4,IMU,*\r\n': _resp = self.TESTIMUDATA[random.randint(0, len(self.TESTIMUDATA)-1)]
-            elif _resp == 'D,s,3,F,100,*\r\n': _resp = 'D,s,3,*55\r\n'
-            elif _resp == 'D,s,3,B,100,*\r\n': _resp = 'D,s,3,*51\r\n'
-            elif _resp == 'D,s,3,R,100,*\r\n': _resp = 'D,s,3,*35\r\n'
-            elif _resp == 'D,s,3,L,100,*\r\n': _resp = 'D,s,3,*61\r\n'
-            else: pass
+        try:
+            """
+            Основная функция чтения данных из последовательного порта
+            """
+            DEBUG = True
+
+            _b_resp = self.port.readAll().data()
+            _resp0 =  bytes(_b_resp).decode()
+
+            self.buffer += _resp0
+
+            coindence = 0
+            for idx, sym in enumerate(self.buffer):
+                if sym == '\r':
+                    try:
+                        if self.buffer[idx+1] == '\n':
+                            _resp = self.buffer[0:idx+2]
+                            self.buffer = self.buffer[idx+3:]
+                            coindence += 1
+                            break
+                    except IndexError as e:
+                        continue
+                    
+            if coindence == 0:
+                return
+
+            if DEBUG == True:                            
+                if _resp == 'D,s,4,GPS,*\r\n': _resp = self.TESTGPSDATA[random.randint(0, len(self.TESTGPSDATA)-1)]
+                #if _resp == 'D,s,4,GPS,*,\r\n': print('ya zdes')
+                elif _resp == 'D,s,4,IMU,*\r\n': _resp = self.TESTIMUDATA[random.randint(0, len(self.TESTIMUDATA)-1)]
+                elif _resp == 'D,s,3,F,100,*\r\n': _resp = 'D,s,3,*55\r\n'
+                elif _resp == 'D,s,3,B,100,*\r\n': _resp = 'D,s,3,*51\r\n'
+                elif _resp == 'D,s,3,R,100,*\r\n': _resp = 'D,s,3,*35\r\n'
+                elif _resp == 'D,s,3,L,100,*\r\n': _resp = 'D,s,3,*61\r\n'
+                else: pass
+                
+        except Exception as e:
+            err = f'{[{self._cur_time()}]} - {e}'
+            logging.error(err)
             
             
         self._add_to_textBrowser(_resp)
@@ -173,6 +190,8 @@ class SerialConnector(Thread):
         """
         self.current_text = f'[{self._cur_time()}] - [RCVD] -\t' + data + self.current_text
         self.ui.textBrowser.setText(self.current_text)
+        to_log = f'[{self._cur_time()}] - [RCVD] -\t' + data
+        logging.info(to_log[0:-2])
         
         
     # При закрытии приложениии автоматически закрывается открытый ранее порт
