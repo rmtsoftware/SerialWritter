@@ -1,11 +1,11 @@
 from PySide6 import QtWidgets
 from PySide6 import QtCore
 import sys
-from btnfunctionality import BtnsFunctionality
+from manualkeysctrl import ManualKeysCtrl
 
 from messager import Messager
 
-class ControlDataInLineEdit(BtnsFunctionality):
+class ControlDataInLineEdit(ManualKeysCtrl):
     def __init__(self):
         super().__init__()
         self.ui.le_pwr_mnl.editingFinished.connect(self._action_le_edited)

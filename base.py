@@ -8,6 +8,7 @@ import logging
 class Base(QtWidgets.QMainWindow):
     def __init__(self):
 
+        # Конфиг логгирования
         logging.basicConfig(level=logging.INFO, filename="py_log.log", filemode="a")
         
         super(Base, self).__init__()
@@ -31,9 +32,12 @@ class Base(QtWidgets.QMainWindow):
         self.ser = None
         self.current_com = None
         for btn in self.all_btns:
-                btn.setEnabled(False) # установка неактивного состояния кнопок
+            print(btn)
+            btn.setEnabled(False) # установка неактивного состояния кнопок
         self.ui.btn_disconnect.setEnabled(False) # доп.неакт кнопка "отключиться"
-
+        self.ui.le_pwr_mnl.setReadOnly(True)
+        self.ui.le_mnl_cmd.setReadOnly(True)
+        
         self.item_in_cb: list = [] # порты доступные в комбобоксе
 
         self.current_text: str = "" # текст в textBrowser
@@ -44,11 +48,9 @@ class Base(QtWidgets.QMainWindow):
         self.ui.lb_longitude_val.setText('0')
         self.ui.lb_EW_val.setText('0')
         self.ui.lb_altitude_val.setText('0')
-        self.ui.lb_year_val.setText('0')
-        self.ui.lb_month_val.setText('0')
-        self.ui.lb_day_val.setText('0')
         self.ui.lb_time_val.setText('0')
         self.ui.lb_grndSpeed_val.setText('0')
+        self.ui.lb_rmc_cource_val.setText('0')
         
         #Установка нулевых значений в фрейм "Данные IMU"
         self.ui.lb_AXL_x_val.setText('0')
@@ -62,25 +64,27 @@ class Base(QtWidgets.QMainWindow):
         self.ui.lb_GYRO_z_val.setText('0')
         self.ui.lb_GndHeading_val.setText('0')
         
-        self.TESTGPSDATA =  ["D,s,1,49,5949.0825,N,3019.6630,S,155.5,2023,10,23,180723.00,0.004,*90\r\n",
-                             "D,s,1,30,5519.9819,N,2047.4720,E,15.2,123736,38.000,48.000,*122\r\n",
-                             "D,s,1,31,5519.9858,N,2047.4790,E,15.2,123737,38.000,48.000,*116\r\n",
-                             "D,s,1,32,5519.9902,N,2047.4860,E,15.2,123738,38.000,48.000,*118\r\n",
-                             "D,s,1,33,5519.9941,N,2047.4930,E,15.2,123739,38.000,48.000,*117\r\n",
-                             "D,s,1,34,5519.9980,N,2047.5000,E,15.2,123740,38.000,48.000,*122\r\n",
-                             "D,s,1,35,5520.0020,N,2047.5070,E,15.2,123741,38.000,48.000,*125\r\n",
-                             "D,s,1,36,5520.0059,N,2047.5140,E,15.2,123742,38.000,48.000,*113\r\n",
-                             "D,s,1,37,5520.0098,N,2047.5210,E,15.2,123743,38.000,48.000,*122\r\n",
-                             "D,s,1,38,5520.0142,N,2047.5280,E,15.2,123744,38.000,48.000,*125\r\n",
-                             "D,s,1,39,5520.0181,N,2047.5350,E,15.2,123745,38.000,48.000,*126\r\n",
-                             "D,s,1,40,5520.0220,N,2047.5420,E,15.2,123746,38.000,48.000,*123\r\n",
-                             "D,s,1,41,5520.0259,N,2047.5490,E,15.2,123747,38.000,48.000,*126\r\n",
-                             "D,s,1,42,5520.0298,N,2047.5560,E,15.2,123748,38.000,48.000,*113\r\n",
-                             "D,s,1,43,5520.0342,N,2047.5630,E,15.2,123749,38.000,48.000,*113\r\n",
-                             "D,s,1,44,5520.0381,N,2047.5699,E,15.2,123750,38.000,48.000,*114\r\n",
-                             "D,s,1,45,5520.0420,N,2047.5770,E,15.2,123751,38.000,48.000,*120\r\n",
-                             "D,s,1,46,5520.0459,N,2047.5840,E,15.2,123752,38.000,48.000,*122\r\n"]
-        
+        # Набор тестовых данных GPS
+        self.TESTGPSDATA =  ["D,s,1,1,5430.1270,N,1920.2310,E,15.2,081121,38.000,48.000,*76\r\n",
+                             "D,s,1,1,5519.9819,N,2047.4720,E,15.2,123736,38.000,48.000,*72\r\n",
+                             "D,s,1,1,5519.9858,N,2047.4790,E,15.2,123737,38.000,48.000,*71\r\n",
+                             "D,s,1,1,5519.9902,N,2047.4860,E,15.2,123738,38.000,48.000,*70\r\n",
+                             "D,s,1,1,5519.9941,N,2047.4930,E,15.2,123739,38.000,48.000,*68\r\n",
+                             "D,s,1,1,5519.9980,N,2047.5000,E,15.2,123740,38.000,48.000,*76\r\n",
+                             "D,s,1,1,5520.0020,N,2047.5070,E,15.2,123741,38.000,48.000,*74\r\n",
+                             "D,s,1,1,5520.0059,N,2047.5140,E,15.2,123742,38.000,48.000,*69\r\n",
+                             "D,s,1,1,5520.0098,N,2047.5210,E,15.2,123743,38.000,48.000,*79\r\n",
+                             "D,s,1,1,5520.0142,N,2047.5280,E,15.2,123744,38.000,48.000,*71\r\n",
+                             "D,s,1,1,5520.0181,N,2047.5350,E,15.2,123745,38.000,48.000,*69\r\n",
+                             "D,s,1,1,5520.0220,N,2047.5420,E,15.2,123746,38.000,48.000,*78\r\n",
+                             "D,s,1,1,5520.0259,N,2047.5490,E,15.2,123747,38.000,48.000,*74\r\n",
+                             "D,s,1,1,5520.0298,N,2047.5560,E,15.2,123748,38.000,48.000,*70\r\n",
+                             "D,s,1,1,5520.0342,N,2047.5630,E,15.2,123749,38.000,48.000,*71\r\n",
+                             "D,s,1,1,5520.0381,N,2047.5699,E,15.2,123750,38.000,48.000,*67\r\n",
+                             "D,s,1,1,5520.0420,N,2047.5770,E,15.2,123751,38.000,48.000,*72\r\n",
+                             "D,s,1,1,5520.0459,N,2047.5840,E,15.2,123752,38.000,48.000,*73\r\n"]
+    
+        # Набор тестовых данных IMU
         self.TESTIMUDATA = ["D,s,1,2,546,21068,15139,11540,4355,8600,28862,20656,15206,168.000,*65\r\n",
                             "D,s,1,2,29991,19308,27712,3152,3457,30389,3007,17862,2765,127.750,*69\r\n",
                             "D,s,1,2,21525,29552,4778,7642,9433,15707,29108,23579,12797,112.000,*120\r\n",
@@ -108,6 +112,8 @@ class Base(QtWidgets.QMainWindow):
         """
         for btn in self.all_btns:
             btn.setEnabled(True)
+        self.ui.le_pwr_mnl.setReadOnly(False)
+        self.ui.le_mnl_cmd.setReadOnly(False)
 
     def _deactivate_btns(self):
         """
@@ -115,6 +121,9 @@ class Base(QtWidgets.QMainWindow):
         """
         for btn in self.all_btns:
             btn.setEnabled(False)
+        self.ui.le_pwr_mnl.setReadOnly(True)
+        self.ui.le_mnl_cmd.setReadOnly(True)
+        
 
 
     def _cur_time(self):
@@ -134,11 +143,9 @@ class Base(QtWidgets.QMainWindow):
         self.ui.lb_longitude_val.setText(str(data[2]))
         self.ui.lb_EW_val.setText(str(data[3]))
         self.ui.lb_altitude_val.setText(str(data[4]))
-        self.ui.lb_year_val.setText(str(data[5]))
-        self.ui.lb_month_val.setText(str(data[6]))
-        self.ui.lb_day_val.setText(str(data[7]))
-        self.ui.lb_time_val.setText(str(data[8]))
-        self.ui.lb_grndSpeed_val.setText(str(data[9]))
+        self.ui.lb_time_val.setText(str(data[5]))
+        self.ui.lb_grndSpeed_val.setText(str(data[6]))
+        self.ui.lb_rmc_cource_val.setText(str(data[7]))
         
     def _rcv_imu(self, rcv_msg):
         """
