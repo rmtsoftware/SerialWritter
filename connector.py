@@ -69,9 +69,10 @@ class SerialConnector(Thread):
         self.port.setDataTerminalReady(True)
         self._activate_btns()
         
-        self.timer1 = QTimer()
-        self.timer1.timeout.connect(self._get_imu)
-        self.timer1.start(1000)
+
+        #self.timer1 = QTimer()
+        #self.timer1.timeout.connect(self._get_imu)
+        #self.timer1.start(1000)
         
     
     
@@ -79,7 +80,7 @@ class SerialConnector(Thread):
         self.port.clear()
         self.port.close()
         self._deactivate_btns()
-        self.timer1.stop()
+        #self.timer1.stop() # Останавливает таймер по тому, когда у нас мы останавливаем подкл com порта
 
     
     def connect_to_ser_dev(self):

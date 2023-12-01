@@ -39,7 +39,7 @@ class BtnsFunctionality(ComboBoxProcesser):
         # кнопка очистки окна вывода текста
         self.ui.btn_clean_textBrw.clicked.connect(self._clr_text_brw)
         
-        self.msg_signals.data_send.connect(self.data_to_log)
+        #self.msg_signals.data_send.connect(self.data_to_log)
         
 
     def send_mnl_cmd(self):
@@ -85,9 +85,9 @@ class BtnsFunctionality(ComboBoxProcesser):
     
     def _get_gps(self):
         """
-        Функция запроса координат GPS
+        Функция запроса координат GPS 
         """
-        cmd = 'D,s,4,GPS,*\r\n'.encode("utf-8")
+        cmd = 'D,s,1,1,*95\r\n'.encode("utf-8")
         self.port.write(cmd)
         self.current_text = f'[{self._cur_time()}] - [SEND] -\t{cmd.decode("utf-8")}' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
@@ -112,7 +112,7 @@ class BtnsFunctionality(ComboBoxProcesser):
         """
         Функция запроса координат IMU
         """
-        cmd = 'D,s,4,IMU,*\r\n'.encode("utf-8")
+        cmd = 'D,s,1,2,*92\r\n'.encode("utf-8")
         self.port.write(cmd)
         self.current_text = f'[{self._cur_time()}] - [SEND] -\t{cmd.decode('utf-8')}' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
