@@ -63,6 +63,8 @@ class Base(QtWidgets.QMainWindow):
         self.ui.lb_GYRO_y_val.setText('0')
         self.ui.lb_GYRO_z_val.setText('0')
         self.ui.lb_GndHeading_val.setText('0')
+        self.ui.lb_alfa_X_val.setText('0')
+
         
         # Набор тестовых данных GPS
         self.TESTGPSDATA =  ["D,s,1,1,5430.1270,N,1920.2310,E,15.2,081121,38.000,48.000,*76\r\n",

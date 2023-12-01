@@ -1130,6 +1130,18 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_15.addWidget(self.frame_imu_data)
 
+        self.lb_alfa_X = QLabel(self.centralwidget)
+        self.lb_alfa_X.setObjectName(u"lb_alfa_X")
+        self.lb_alfa_X.setGeometry(QRect(1275, 500, 49, 17))
+        self.lb_alfa_X.setStyleSheet(u"font-size: 10pt;\n"
+"border: none;\n"
+"color: rgb(187, 195, 211);")
+        self.lb_alfa_X_val = QLabel(self.centralwidget)
+        self.lb_alfa_X_val.setObjectName(u"lb_alfa_X_val")
+        self.lb_alfa_X_val.setGeometry(QRect(1330, 500, 58, 17))
+        self.lb_alfa_X_val.setStyleSheet(u"font-size: 10pt;\n"
+"border: none;\n"
+"color: rgb(187, 195, 211);")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -1206,5 +1218,7 @@ class Ui_MainWindow(object):
         self.lb_GYRO_z_val.setText(QCoreApplication.translate("MainWindow", u"GYRO_z", None))
         self.lb_GndHeading.setText(QCoreApplication.translate("MainWindow", u"Heading", None))
         self.lb_GndHeading_val.setText(QCoreApplication.translate("MainWindow", u"GndHeading", None))
+        self.lb_alfa_X.setText(QCoreApplication.translate("MainWindow", u"Alfa X", None))
+        self.lb_alfa_X_val.setText(QCoreApplication.translate("MainWindow", u"GndHeading", None))
     # retranslateUi
 

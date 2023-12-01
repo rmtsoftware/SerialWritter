@@ -136,7 +136,7 @@ class SerialConnector(Thread):
             """
             Основная функция чтения данных из последовательного порта
             """
-            DEBUG = True
+            DEBUG = False
 
             _b_resp = self.port.readAll().data()
             _resp0 =  bytes(_b_resp).decode()

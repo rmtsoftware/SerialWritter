@@ -1671,6 +1671,42 @@ color: rgb(187, 195, 211);</string>
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="lb_alfa_X">
+    <property name="geometry">
+     <rect>
+      <x>1275</x>
+      <y>500</y>
+      <width>49</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+    </property>
+    <property name="text">
+     <string>Alfa X</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lb_alfa_X_val">
+    <property name="geometry">
+     <rect>
+      <x>1330</x>
+      <y>500</y>
+      <width>58</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 10pt;
+border: none;
+color: rgb(187, 195, 211);</string>
+    </property>
+    <property name="text">
+     <string>GndHeading</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
