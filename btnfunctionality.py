@@ -26,10 +26,6 @@ class BtnsFunctionality(ComboBoxProcesser):
         
         self.ui.le_mnl_cmd.returnPressed.connect(self.send_mnl_cmd)
 
-        # кнопки выбора режима управления
-        self.ui.btn_auto_mode.clicked.connect(self._auto_mode)
-        self.ui.btn_rmt_mode.clicked.connect(self._remote_mode)
-
         # кнопка запуска/остановки двигателя
         self.ui.btn_ctrl_mtr.clicked.connect(self._ctrl_motor)
 
@@ -60,14 +56,6 @@ class BtnsFunctionality(ComboBoxProcesser):
         self.ui.textBrowser.setText(self.current_text)
  
  
-    def _auto_mode(self):
-        """Автоматический режим управления аппаратом"""
-        pass
-
-    def _remote_mode(self):
-        """Удаленый режим управления аппаратом (с пульта)"""
-        pass
-
     def _ctrl_motor(self):
         """Запуск останов мотора"""
         pass

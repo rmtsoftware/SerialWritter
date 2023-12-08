@@ -7,11 +7,6 @@ class ManualKeysCtrl(BtnsFunctionality):
     def __init__(self):
         super().__init__()
         
-        # Кнопкка выбора ручного режима
-        self.ui.btn_mnl_mode.clicked.connect(self._manual_mode)
-    
-        self._fMan_mode = -1 # Флаг выбора ручного режима
-        
         # Ручное управление кнопками WASD
         self._manCS = 0
         self._w_flag = False
@@ -50,16 +45,6 @@ class ManualKeysCtrl(BtnsFunctionality):
             return 0
     
         
-    def _manual_mode(self) -> None:
-        
-        self._fMan_mode *= -1
-        
-        if self._fMan_mode == 1:
-            self.ui.lb_rmode_val.setText('Ручной')   
-        if self._fMan_mode == -1:
-            self.ui.lb_rmode_val.setText('-')
-    
-    
     def keyPressEvent(self, event):
         
         if self.port.isOpen() != True:

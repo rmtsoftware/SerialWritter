@@ -28,6 +28,9 @@ class Base(QtWidgets.QMainWindow):
                         self.ui.btn_ctrl_mtr,
                         self.ui.btn_mnl_cmd,]
         
+        # Значение режима
+        self.ui.lb_rmode_val.setText('Не выбран')
+        
         # Инициализация объекта последовательного порта
         self.ser = None
         self.current_com = None
@@ -57,6 +60,9 @@ class Base(QtWidgets.QMainWindow):
         self.estimator = EstimatorCS()
         
         self.buffer = ''
+        
+        self._fMan_mode = -1 # флаг выбора ручного режима
+        self._fRmt_mode = -1 # флаг выбора дистанционного режима
     
         
     def _set_zeros_gps(self):    
@@ -144,3 +150,7 @@ class Base(QtWidgets.QMainWindow):
         self.ui.lb_GYRO_y_val.setText(str(data[7]))
         self.ui.lb_GYRO_z_val.setText(str(data[8]))
         self.ui.lb_GndHeading_val.setText(str(data[9]))
+        
+    def _reset_modes(self):
+        self._fMan_mode = -1
+        self._fRmt_mode = -1

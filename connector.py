@@ -43,14 +43,15 @@ class SerialConnector(Base):
         self.port.open(QIODevice.OpenModeFlag.ReadWrite)
         self.port.setDataTerminalReady(True)
         self._activate_btns()
+        self._reset_modes()
         
     
     def stop_listen(self):
         self.port.clear()
         self.port.close()
         self._deactivate_btns()
+        
 
-    
     def connect_to_ser_dev(self):
         """
         Логика и действия при нажатии кнопки "Подключиться"
@@ -99,6 +100,7 @@ class SerialConnector(Base):
         self.current_com = None
         self._set_zeros_gps()
         self._set_zeros_imu()
+        self._reset_modes()
     
         
     def readFromSerial(self):
