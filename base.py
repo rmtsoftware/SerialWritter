@@ -1,9 +1,9 @@
 from PySide6 import QtWidgets, QtGui
-from PySide6.QtCore import QThreadPool
+from estimator import EstimatorCS
 from mainwindow_ui import Ui_MainWindow
 import datetime
 import logging
-import _resources
+from _resources import _signals, _my_test_data
 
 class Base(QtWidgets.QMainWindow):
     def __init__(self):
@@ -45,10 +45,18 @@ class Base(QtWidgets.QMainWindow):
         self._set_zeros_imu() # установить "0" в вывод данных imu
         
         # Набор тестовых данных GPS
-        self.TESTGPSDATA = _resources._my_test_data.TESTGPSDATA
+        self.TESTGPSDATA = _my_test_data.TESTGPSDATA
         
         # Набор тестовых данных IMU
-        self.TESTIMUDATA = _resources._my_test_data.TESTIMUDATA
+        self.TESTIMUDATA = _my_test_data.TESTIMUDATA
+        
+        # Инициализация сигналов
+        self.msg_signals = _signals._nSignals()
+        
+        # Инициализация вычислителя контрольной суммы
+        self.estimator = EstimatorCS()
+        
+        self.buffer = ''
     
         
     def _set_zeros_gps(self):    
@@ -136,10 +144,3 @@ class Base(QtWidgets.QMainWindow):
         self.ui.lb_GYRO_y_val.setText(str(data[7]))
         self.ui.lb_GYRO_z_val.setText(str(data[8]))
         self.ui.lb_GndHeading_val.setText(str(data[9]))
-        
-        
-class Thread(Base):
-    def __init__(self):
-        super().__init__()
-        self.pool = QThreadPool.globalInstance() # Создан пул потоков
-        
