@@ -1,6 +1,7 @@
 from PySide6 import QtWidgets
 from PySide6.QtCore import QTimer
 from controlline import ControlDataInLineEdit
+import logging
 
 class ModeController(ControlDataInLineEdit):
     def __init__(self):
@@ -39,14 +40,24 @@ class ModeController(ControlDataInLineEdit):
         self._fAut_mode = -1
         
         self._fMan_mode *= -1
+
+        if self._fMan_mode == -1:
+            logging.info(f'[{self._cur_time()}] - Manual mode off.')
+        if self._fMan_mode == 1:
+            logging.info(f'[{self._cur_time()}] - Manual mode on.')
         
-    
+        
     def _remote_mode(self) -> None:
         """Удаленый режим управления аппаратом (с пульта)"""
         self._fMan_mode = -1
         self._fAut_mode = -1
         
         self._fRmt_mode *= -1
+        
+        if self._fRmt_mode == -1:
+            logging.info(f'[{self._cur_time()}] - Remote mode off.')
+        if self._fRmt_mode == 1:
+            logging.info(f'[{self._cur_time()}] - Remote mode on.')
         
 
     def _auto_mode(self) -> None:
@@ -55,5 +66,8 @@ class ModeController(ControlDataInLineEdit):
         self._fRmt_mode = -1
         
         self._fAut_mode *= -1
-
-    
+        
+        if self._fAut_mode == -1:
+            logging.info(f'[{self._cur_time()}] - Auto mode off.')
+        if self._fAut_mode == 1:
+            logging.info(f'[{self._cur_time()}] - Auto mode on.')
