@@ -119,7 +119,7 @@ QLineEdit:hover {
      <rect>
       <x>350</x>
       <y>10</y>
-      <width>711</width>
+      <width>631</width>
       <height>661</height>
      </rect>
     </property>
@@ -155,7 +155,7 @@ background-color: none;</string>
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">font-size: 12pt;
+           <string notr="true">font-size: 10pt;
 border: none;
 font: bold;
 color: rgb(187, 195, 211);</string>
@@ -202,7 +202,7 @@ color: rgb(187, 195, 211);</string>
        <property name="font">
         <font>
          <family>Segoe UI</family>
-         <pointsize>10</pointsize>
+         <pointsize>8</pointsize>
          <italic>false</italic>
          <bold>true</bold>
          <kerning>true</kerning>
@@ -211,7 +211,7 @@ color: rgb(187, 195, 211);</string>
        <property name="styleSheet">
         <string notr="true">QTextBrowser{
 	color: black;
-	font-size: 10pt;
+	font-size: 8pt;
 	background-color: rgb(211, 211, 211);
 	border: 1px solid rgb(118, 118, 118);
 	border-radius: 3px;
@@ -698,7 +698,7 @@ background-color: none;</string>
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">font-size: 12pt;
+        <string notr="true">font-size: 10pt;
 border: none;
 font: bold;
 color: rgb(187, 195, 211);</string>
@@ -737,7 +737,7 @@ color: rgb(187, 195, 211);</string>
           <property name="styleSheet">
            <string notr="true">QComboBox{
 	color: black;
-	font-size: 10pt;
+	font-size: 8pt;
 	background-color: rgb(211, 211, 211);
 	border: 1px solid rgb(118, 118, 118);
 	border-radius: 3px;
@@ -765,7 +765,7 @@ QComboBox:hover {
           <property name="styleSheet">
            <string notr="true">QComboBox{
 	color: black;
-	font-size: 10pt;
+	font-size: 8pt;
 	background-color: rgb(211, 211, 211);
 	border: 1px solid rgb(118, 118, 118);
 	border-radius: 3px;
@@ -811,7 +811,8 @@ QComboBox:pressed {
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: none;</string>
+        <string notr="true">border: none;
+font-size: 8pt;</string>
        </property>
        <layout class="QHBoxLayout" name="conn_frame">
         <item>
@@ -825,7 +826,7 @@ QComboBox:pressed {
           <property name="styleSheet">
            <string notr="true">QPushButton{
 	color: black;
-	font-size: 10pt;
+	font-size: 8pt;
 	background-color: rgb(211, 211, 211);
 	border: 1px solid rgb(118, 118, 118);
 	border-radius: 3px;
@@ -864,7 +865,7 @@ QPushButton:disabled {
           <property name="styleSheet">
            <string notr="true">QPushButton{
 	color: black;
-	font-size: 10pt;
+	font-size: 8pt;
 	background-color: rgb(211, 211, 211);
 	border: 1px solid rgb(118, 118, 118);
 	border-radius: 3px;
@@ -1038,7 +1039,7 @@ QPushButton:disabled {
    <widget class="QFrame" name="frame_main_gps_data">
     <property name="geometry">
      <rect>
-      <x>1070</x>
+      <x>990</x>
       <y>10</y>
       <width>171</width>
       <height>391</height>
@@ -1326,7 +1327,7 @@ color: rgb(187, 195, 211);</string>
    <widget class="QFrame" name="frame_main_imu_data">
     <property name="geometry">
      <rect>
-      <x>1250</x>
+      <x>1170</x>
       <y>10</y>
       <width>171</width>
       <height>471</height>

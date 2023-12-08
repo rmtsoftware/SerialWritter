@@ -29,7 +29,7 @@ class ManualKeysCtrl(BtnsFunctionality):
         self.port.write(bytes(cmd, 'utf-8'))
         self._manCS = self.estimator.get_CS(cmd)
         
-        self.current_text = f'[{self._cur_time()}] - [SEND] -\t {cmd}' + self.current_text
+        self.current_text = f'[{self._cur_time()}] - [SEND] - {cmd}' + self.current_text
         self.ui.textBrowser.setText(self.current_text)
         
       
@@ -53,6 +53,7 @@ class ManualKeysCtrl(BtnsFunctionality):
         
     def _manual_mode(self) -> None:
         self._fMan_mode *= -1
+        #self.ui.le
     
     
     def keyPressEvent(self, event):

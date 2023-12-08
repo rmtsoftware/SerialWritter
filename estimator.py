@@ -8,3 +8,4 @@ class EstimatorCS:
 
     def get_CS(self, cmd):
         return ord(self.f.calculateChecksum(cmd.encode('utf-8')))
+        

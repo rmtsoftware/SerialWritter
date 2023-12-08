@@ -10,14 +10,11 @@ class ComboBoxProcesser(SerialConnector):
 
     def _cb_proc(self, in_cbox, actual):
         """
-
         COMBO BOX PROCCESING\n
-
         Функция формирует три списка:\n
             1. актуальный (требуемый) список портов\n
             2. порты которые следует удалить из комбобокса\n
             3. порты которые следует добавить в комбобокс\n
-
         """
         common = [x for x in in_cbox if x in actual]
         to_delete = list(set(in_cbox).difference(set(common)))
@@ -55,3 +52,4 @@ class ComboBoxProcesser(SerialConnector):
         self.ui.cb_com_dev.addItems(to_add)
         self.item_in_cb = common
         self.item_in_cb += to_add
+        

@@ -6,6 +6,7 @@ from base import Thread
 import logging
 import random
 
+
 class _nSignals(QObject):
     get_gps = Signal(object)
     get_imu = Signal(object)
@@ -14,15 +15,11 @@ class _nSignals(QObject):
     mov_back = Signal()
     mov_left = Signal()
     mov_right = Signal()
-    
     set_gps_data_to_widget = Signal(object)
     set_imu_data_to_widget = Signal(object)
-    
     data_send = Signal(object)
     
     
-
-
 class SerialConnector(Thread):
     def __init__(self):
         super().__init__()
@@ -69,17 +66,11 @@ class SerialConnector(Thread):
         self.port.setDataTerminalReady(True)
         self._activate_btns()
         
-        self.timer1 = QTimer()
-        self.timer1.timeout.connect(self._get_imu)
-        self.timer1.start(1000)
-        
-    
     
     def stop_listen(self):
         self.port.clear()
         self.port.close()
         self._deactivate_btns()
-        self.timer1.stop()
 
     
     def connect_to_ser_dev(self):
@@ -99,7 +90,7 @@ class SerialConnector(Thread):
         try:
             self.start_listen(self.current_com, self.current_brate)
              
-        # Ошибка возникающая при недоустпности / неопределённости устройства
+        # Ошибка возникающая при недоступности / неопределённости устройства
         # по указанному com-порту
         except Exception as e:
             print(e) 
@@ -159,7 +150,6 @@ class SerialConnector(Thread):
 
             if DEBUG == True:                            
                 if _resp == 'D,s,4,GPS,*\r\n': _resp = self.TESTGPSDATA[random.randint(0, len(self.TESTGPSDATA)-1)]
-                #if _resp == 'D,s,4,GPS,*,\r\n': print('ya zdes')
                 elif _resp == 'D,s,4,IMU,*\r\n': _resp = self.TESTIMUDATA[random.randint(0, len(self.TESTIMUDATA)-1)]
                 elif _resp == 'D,s,3,F,100,*\r\n': _resp = 'D,s,3,*55\r\n'
                 elif _resp == 'D,s,3,B,100,*\r\n': _resp = 'D,s,3,*51\r\n'
@@ -170,7 +160,6 @@ class SerialConnector(Thread):
         except Exception as e:
             err = f'{[{self._cur_time()}]} - {e}'
             logging.error(err)
-            
             
         self._add_to_textBrowser(_resp)
         
@@ -188,9 +177,10 @@ class SerialConnector(Thread):
         """
         Добавление записи в окно вывода текста
         """
-        self.current_text = f'[{self._cur_time()}] - [RCVD] -\t' + data + self.current_text
+        self.current_text = f'[{self._cur_time()}] - [RCVD] - ' + data + self.current_text
         self.ui.textBrowser.setText(self.current_text)
-        to_log = f'[{self._cur_time()}] - [RCVD] -\t' + data
+
+        to_log = f'[{self._cur_time()}] - [RCVD] - ' + data
         logging.info(to_log[0:-2])
         
         
