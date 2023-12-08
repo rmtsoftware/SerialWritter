@@ -7,7 +7,7 @@ class ManualKeysCtrl(BtnsFunctionality):
     def __init__(self):
         super().__init__()
         
-        #
+        # Кнопкка выбора ручного режима
         self.ui.btn_mnl_mode.clicked.connect(self._manual_mode)
     
         self._fMan_mode = -1 # Флаг выбора ручного режима
@@ -42,7 +42,6 @@ class ManualKeysCtrl(BtnsFunctionality):
             print(e)
 
         if self._manCS != _parsedCS:
-            print
             print("Ошибка записи ручной команды")
             print(f"Получено: {rcv_msg}")
             return -1
@@ -52,8 +51,13 @@ class ManualKeysCtrl(BtnsFunctionality):
     
         
     def _manual_mode(self) -> None:
+        
         self._fMan_mode *= -1
-        #self.ui.le
+        
+        if self._fMan_mode == 1:
+            self.ui.lb_rmode_val.setText('Ручной')   
+        if self._fMan_mode == -1:
+            self.ui.lb_rmode_val.setText('-')
     
     
     def keyPressEvent(self, event):

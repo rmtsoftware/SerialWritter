@@ -1,8 +1,6 @@
 from PySide6 import QtWidgets
-from PySide6 import QtCore
 import sys
 from manualkeysctrl import ManualKeysCtrl
-
 from messager import Messager
 
 class ControlDataInLineEdit(ManualKeysCtrl):
@@ -45,10 +43,3 @@ class ControlDataInLineEdit(ManualKeysCtrl):
         # которая формирует команду на mainBoard 
         self.pwr_mnl = int(self.ui.le_pwr_mnl.text())
         
-        
-if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    window = ControlDataInLineEdit()
-    window.mouseMoveEvent = window.mouseMoveEvent
-    window.show()
-    sys.exit(app.exec())

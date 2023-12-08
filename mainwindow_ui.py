@@ -555,6 +555,24 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_7.addWidget(self.btn_rmt_mode)
 
+        self.widget9 = QWidget(self.centralwidget)
+        self.widget9.setObjectName(u"widget9")
+        self.widget9.setGeometry(QRect(270, 40, 151, 18))
+        self.horizontalLayout_23 = QHBoxLayout(self.widget9)
+        self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
+        self.horizontalLayout_23.setContentsMargins(0, 0, 0, 0)
+        self.lb_rmode = QLabel(self.widget9)
+        self.lb_rmode.setObjectName(u"lb_rmode")
+        self.lb_rmode.setStyleSheet(u"")
+
+        self.horizontalLayout_23.addWidget(self.lb_rmode)
+
+        self.lb_rmode_val = QLabel(self.widget9)
+        self.lb_rmode_val.setObjectName(u"lb_rmode_val")
+        self.lb_rmode_val.setStyleSheet(u"")
+
+        self.horizontalLayout_23.addWidget(self.lb_rmode_val)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -636,5 +654,7 @@ class Ui_MainWindow(object):
         self.btn_mnl_mode.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0443\u0447\u043d\u043e\u0439", None))
         self.btn_auto_mode.setText(QCoreApplication.translate("MainWindow", u"\u0410\u0432\u0442\u043e\u043d\u043e\u043c\u043d\u044b\u0439", None))
         self.btn_rmt_mode.setText(QCoreApplication.translate("MainWindow", u"\u0414\u0438\u0441\u0442\u0430\u043d\u0446\u0438\u043e\u043d\u043d\u044b\u0439", None))
+        self.lb_rmode.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0436\u0438\u043c", None))
+        self.lb_rmode_val.setText(QCoreApplication.translate("MainWindow", u"\u0437\u043d\u0420\u0435\u0436\u0438\u043c", None))
     # retranslateUi
 
