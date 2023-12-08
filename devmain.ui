@@ -669,7 +669,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBox">
+        <widget class="QCheckBox" name="checkBox_auto_gps">
          <property name="text">
           <string>Авто запрос GPS</string>
          </property>
@@ -696,7 +696,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBox_2">
+        <widget class="QCheckBox" name="checkBox_auto_imu">
          <property name="text">
           <string>Авто запрос IMU</string>
          </property>

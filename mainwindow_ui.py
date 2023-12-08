@@ -415,10 +415,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_20.addWidget(self.btn_gps)
 
-        self.checkBox = QCheckBox(self.widget3)
-        self.checkBox.setObjectName(u"checkBox")
+        self.checkBox_auto_gps = QCheckBox(self.widget3)
+        self.checkBox_auto_gps.setObjectName(u"checkBox_auto_gps")
 
-        self.horizontalLayout_20.addWidget(self.checkBox)
+        self.horizontalLayout_20.addWidget(self.checkBox_auto_gps)
 
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_20)
@@ -432,10 +432,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_19.addWidget(self.btn_imu)
 
-        self.checkBox_2 = QCheckBox(self.widget3)
-        self.checkBox_2.setObjectName(u"checkBox_2")
+        self.checkBox_auto_imu = QCheckBox(self.widget3)
+        self.checkBox_auto_imu.setObjectName(u"checkBox_auto_imu")
 
-        self.horizontalLayout_19.addWidget(self.checkBox_2)
+        self.horizontalLayout_19.addWidget(self.checkBox_auto_imu)
 
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_19)
@@ -636,9 +636,9 @@ class Ui_MainWindow(object):
         self.lb_GndHeading.setText(QCoreApplication.translate("MainWindow", u"Heading", None))
         self.lb_GndHeading_val.setText(QCoreApplication.translate("MainWindow", u"GndHeading", None))
         self.btn_gps.setText(QCoreApplication.translate("MainWindow", u"GPS", None))
-        self.checkBox.setText(QCoreApplication.translate("MainWindow", u"\u0410\u0432\u0442\u043e \u0437\u0430\u043f\u0440\u043e\u0441 GPS", None))
+        self.checkBox_auto_gps.setText(QCoreApplication.translate("MainWindow", u"\u0410\u0432\u0442\u043e \u0437\u0430\u043f\u0440\u043e\u0441 GPS", None))
         self.btn_imu.setText(QCoreApplication.translate("MainWindow", u"IMU", None))
-        self.checkBox_2.setText(QCoreApplication.translate("MainWindow", u"\u0410\u0432\u0442\u043e \u0437\u0430\u043f\u0440\u043e\u0441 IMU", None))
+        self.checkBox_auto_imu.setText(QCoreApplication.translate("MainWindow", u"\u0410\u0432\u0442\u043e \u0437\u0430\u043f\u0440\u043e\u0441 IMU", None))
         self.cb_com_dev.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u041d\u0435 \u0432\u044b\u0431\u0440\u0430\u043d\u043e", None))
         self.cb_baudrate.setItemText(0, QCoreApplication.translate("MainWindow", u"9600", None))
         self.cb_baudrate.setItemText(1, QCoreApplication.translate("MainWindow", u"115200", None))
