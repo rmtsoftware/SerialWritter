@@ -50,6 +50,7 @@ class SerialConnector(Base):
         self.port.clear()
         self.port.close()
         self._deactivate_btns()
+        logging.info(f'[{self._cur_time()}] - Disconnected from device {self.current_com}.')
         
 
     def connect_to_ser_dev(self):
@@ -79,6 +80,7 @@ class SerialConnector(Base):
         
         # Вызов инф.сообщения
         Messager._dev_connected(self.current_com)
+        logging.info(f'[{self._cur_time()}] - Connected to device {self.current_com}.')
 
         self.ui.btn_connect.setEnabled(False)
         self.ui.btn_disconnect.setEnabled(True)
