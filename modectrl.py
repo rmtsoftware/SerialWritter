@@ -20,7 +20,7 @@ class ModeController(ControlDataInLineEdit):
        
         
     def _rmode(self):
-        if self._fMan_mode == -1 and self._fRmt_mode == -1:
+        if self._fMan_mode == -1:
             self.ui.lb_rmode_val.setText('Не выбрано')
             
         if self._fMan_mode == 1:
@@ -28,22 +28,32 @@ class ModeController(ControlDataInLineEdit):
             
         if self._fRmt_mode == 1:
             self.ui.lb_rmode_val.setText('Дистанционный')
+            
+        if self._fAut_mode == 1:
+            self.ui.lb_rmode_val.setText('Автономный')
       
             
     def _manual_mode(self) -> None:
         """Ручной режим управления аппаратом (с ПО)""" 
-        self._fMan_mode *= -1
         self._fRmt_mode = -1
-     
+        self._fAut_mode = -1
         
+        self._fMan_mode *= -1
+        
+    
     def _remote_mode(self) -> None:
         """Удаленый режим управления аппаратом (с пульта)"""
+        self._fMan_mode = -1
+        self._fAut_mode = -1
+        
         self._fRmt_mode *= -1
-        self._fMan_mode = -1 
-        pass
-    
-    
+        
+
     def _auto_mode(self) -> None:
         """Автоматический режим управления аппаратом"""
-        pass
+        self._fMan_mode = -1
+        self._fRmt_mode = -1
+        
+        self._fAut_mode *= -1
+
     

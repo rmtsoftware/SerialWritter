@@ -63,6 +63,7 @@ class Base(QtWidgets.QMainWindow):
         
         self._fMan_mode = -1 # флаг выбора ручного режима
         self._fRmt_mode = -1 # флаг выбора дистанционного режима
+        self._fAut_mode = -1 # флаг выбора автономного режима
     
         
     def _set_zeros_gps(self):    
@@ -154,3 +155,4 @@ class Base(QtWidgets.QMainWindow):
     def _reset_modes(self):
         self._fMan_mode = -1
         self._fRmt_mode = -1
+        self._fAut_mode = -1
