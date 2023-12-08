@@ -119,6 +119,8 @@ class SerialConnector(Thread):
         self.ui.btn_connect.setEnabled(True)
         self.ui.btn_disconnect.setEnabled(False)
         self.current_com = None
+        self._set_zeros_gps()
+        self._set_zeros_imu()
     
         
     def readFromSerial(self):
