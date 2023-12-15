@@ -1,4 +1,5 @@
 from PySide6 import QtWidgets, QtGui
+from PySide6.QtCore import QTimer
 from estimator import EstimatorCS
 from mainwindow_ui import Ui_MainWindow
 import datetime
@@ -43,6 +44,9 @@ class Base(QtWidgets.QMainWindow):
         self.item_in_cb: list = [] # порты доступные в комбобоксе
 
         self.current_text: str = "" # текст в textBrowser
+        self.l_cur_text_viewer = QTimer()
+        self.l_cur_text_viewer.timeout.connect(self._check_text_lenght)
+        self.l_cur_text_viewer.start(1000)
 
         self._set_zeros_gps() # установить "0" в вывод данных gps
         self._set_zeros_imu() # установить "0" в вывод данных imu
@@ -64,6 +68,12 @@ class Base(QtWidgets.QMainWindow):
         self._fMan_mode = -1 # флаг выбора ручного режима
         self._fRmt_mode = -1 # флаг выбора дистанционного режима
         self._fAut_mode = -1 # флаг выбора автономного режима
+        
+    def _check_text_lenght(self):
+        if len(self.current_text) > 5000:
+            self.current_text = ""
+            self.ui.textBrowser.setText(self.current_text)
+            print("ОЧИСТКА ОБЛАСТИ ВЫВОДА ДАННЫХ ТЕРМИНАЛА")
     
         
     def _set_zeros_gps(self):    
